@@ -1,0 +1,86 @@
+package layouts
+
+import (
+	"gabsdev-go/internal/views/components"
+	"time"
+)
+
+templ Layout(title string, pathname string) {
+	<!DOCTYPE html>
+	<html lang="pt-BR">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title }</title>
+			<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+			<script>
+			function applyThemeIcons(theme) {
+				var sun = document.querySelector('.icon-sun');
+				var moon = document.querySelector('.icon-moon');
+				if (!sun || !moon) return;
+				if (theme === 'dark') {
+					sun.style.display = '';
+					moon.style.display = 'none';
+				} else {
+					sun.style.display = 'none';
+					moon.style.display = '';
+				}
+			}
+			(function () {
+				var theme = localStorage.getItem('theme') || 'dark';
+				document.documentElement.setAttribute('data-theme', theme);
+				document.addEventListener('DOMContentLoaded', function() {
+					applyThemeIcons(theme);
+					var label = document.getElementById('nav-theme-label');
+					if (label) label.textContent = theme === 'dark' ? 'light' : 'dark';
+				});
+			})();
+			function toggleTheme() {
+				var current = document.documentElement.getAttribute('data-theme');
+				var next = current === 'dark' ? 'light' : 'dark';
+				document.documentElement.setAttribute('data-theme', next);
+				localStorage.setItem('theme', next);
+				var label = document.getElementById('nav-theme-label');
+				if (label) label.textContent = next === 'dark' ? 'light' : 'dark';
+				applyThemeIcons(next);
+			}
+		</script>
+		<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+			<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+			<link rel="icon" href="/static/images/favicon.ico" type="image/x-icon"/>
+			<link rel="stylesheet" href="/static/css/global.css"/>
+		</head>
+		<body>
+			@components.CrtOverlay()
+			<div id="app">
+				<div class="term-window">
+					<div class="term-titlebar">
+						<div class="term-dots">
+							<div class="term-dot"></div>
+							<div class="term-dot"></div>
+							<div class="term-dot filled"></div>
+						</div>
+						<span class="term-title">gabsdev — terminal blog</span>
+						<span class="spacer"></span>
+					</div>
+					<div class="term-body">
+						@components.Nav(pathname)
+						{ children... }
+					</div>
+					<footer class="term-footer">
+						<span>gabsdev © { time.Now().Year() }</span>
+						<span>
+							<a href="/rss.xml">rss</a>
+							.
+							<a href="https://github.com/Gabriel-Pereira1788" target="_blank" rel="noopener">
+								github
+							</a>
+						</span>
+					</footer>
+				</div>
+			</div>
+		</body>
+	</html>
+}

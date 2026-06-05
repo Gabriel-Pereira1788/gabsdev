@@ -1,0 +1,25 @@
+package components
+
+func searchPlaceholder(activeTag string) string {
+	if activeTag != "" {
+		return "buscar em #" + activeTag + "..."
+	}
+	return "buscar artigos..."
+}
+
+templ SearchBar(activeTag string) {
+	<div class="search-wrap">
+		<input
+			class="search-input"
+			type="text"
+			name="q"
+			placeholder={ searchPlaceholder(activeTag) }
+			autocomplete="off"
+			hx-get="/articles/search"
+			hx-trigger="input changed delay:300ms, search"
+			hx-target="#post-list"
+			hx-swap="innerHTML"
+			hx-vals={ `{"tag":"` + activeTag + `"}` }
+		/>
+	</div>
+}

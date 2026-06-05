@@ -1,0 +1,36 @@
+# Go binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test/coverage
+*.test
+*.out
+coverage.html
+
+# Go vendor
+vendor/
+
+# Air (live reload)
+tmp/
+
+# templ generated files
+**/*_templ.go
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Env
+.env
+.env.*
+!.env.example

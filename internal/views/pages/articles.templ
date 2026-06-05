@@ -1,0 +1,30 @@
+package pages
+
+import (
+	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/views/components"
+	"gabsdev-go/internal/views/layouts"
+)
+
+func getTagLabel(activeTag string) string {
+	if activeTag != "" {
+		return "// " + activeTag
+	}
+	return "// artigos"
+}
+
+templ ArticlesPage(pathname string, posts []domain.Post, tags []string, activeTag string) {
+	@layouts.Layout("Articles", pathname) {
+		<div class="page enter">
+			<div class="min-list-head">
+				<span className="lbl">{ getTagLabel(activeTag) }</span>
+			</div>
+			@components.SearchBar(activeTag)
+			<div class="post-list" id="post-list">
+				for _, post := range posts {
+					@components.PostRow(post, activeTag)
+				}
+			</div>
+		</div>
+	}
+}

@@ -1,0 +1,41 @@
+package components
+
+import "gabsdev-go/internal/domain"
+import "gabsdev-go/internal/utils"
+import "strconv"
+
+func getTagClass(tag, activeTag string) string {
+	if tag == activeTag {
+		return "tag active"
+	}
+	return "tag"
+}
+
+templ PostRow(post domain.Post, activeTag string) {
+	<a
+		class="post-row"
+		href={ templ.SafeURL("/articles/" + post.Slug) }
+	>
+		<span class="marker">{ ">" }</span>
+		<div class="post-main">
+			<h3 class="post-title">{ post.Title }</h3>
+			<p class="post-excerpt">{ post.Excerpt }</p>
+			<div class="post-tags">
+				for _, tag := range post.Tags {
+					<span
+						class={ getTagClass(tag, activeTag) }
+						hx-get={ "/articles/search?tag=" + tag }
+						hx-target="#post-list"
+						hx-swap="innerHTML"
+						hx-push-url={ "/articles?tag=" + tag }
+						onclick="event.stopPropagation(); document.querySelector('.search-input').value=''"
+					>{ tag }</span>
+				}
+			</div>
+		</div>
+		<div class="post-meta-right">
+			<span>{ utils.FmtDate(post.Date) }</span>
+			<span class="read">{ strconv.Itoa(post.ReadMin) } min</span>
+		</div>
+	</a>
+}

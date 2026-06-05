@@ -1,0 +1,9 @@
+package components
+
+import "gabsdev-go/internal/domain"
+
+templ PostList(posts []domain.Post, activeTag string) {
+	for _, post := range posts {
+		@PostRow(post, activeTag)
+	}
+}

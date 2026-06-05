@@ -1,0 +1,80 @@
+package pages
+
+import (
+	"gabsdev-go/internal/views/components"
+	"gabsdev-go/internal/views/layouts"
+	"strconv"
+)
+
+templ AboutPage(pathname string, postsCount int) {
+	@layouts.Layout("Sobre", pathname) {
+		<div class="page enter">
+
+			<div class="min-list-head" style="margin-bottom:32px;border-bottom:none;">
+				<span class="lbl">{ "// sobre" }</span>
+			</div>
+
+			<div class="about-grid">
+				<div>
+					<img
+						src="/static/images/pixel-avatar.png"
+						alt="Gabriel Pereira"
+						width="160"
+						height="160"
+						style="image-rendering: pixelated;"
+					/>
+					<p style="font-size:13px;color:var(--text-2);margin-top:12px;">{ "@gabsdev" }</p>
+				</div>
+
+				<div>
+					<p style="font-size:15px;color:var(--text-1);line-height:1.8;margin-bottom:20px;">
+						Engenheiro de software. Escrevo sobre sistemas, compiladores e as coisas
+						que aprendo no caminho — com foco em entender de verdade, não só em usar.
+					</p>
+					<p style="font-size:15px;color:var(--text-1);line-height:1.8;margin-bottom:20px;">
+						Este blog é o lugar onde condenzo artigos técnicos e anoto o que valeu a pena registrar.
+					</p>
+
+					<div class="about-stats">
+						<div class="stat-row">
+							<span class="k">stack principal</span>
+							<span class="v">React Native, TypeScript, Swift, Kotlin, Python</span>
+						</div>
+						<div class="stat-row">
+							<span class="k">editor</span>
+							<span class="v">Zed</span>
+						</div>
+						<div class="stat-row">
+							<span class="k">artigos</span>
+							<span class="v">{ strconv.Itoa(postsCount) }</span>
+						</div>
+						<div class="stat-row">
+							<span class="k">desde</span>
+							<span class="v">2021</span>
+						</div>
+					</div>
+
+					<div style="display:flex;gap:18px;margin-top:24px;">
+						<a
+							href="https://github.com/Gabriel-Pereira1788"
+							target="_blank"
+							rel="noopener"
+							style="display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--text-2);"
+						>
+							@components.PixelIcon("github", 14)
+							github
+						</a>
+						<a
+							href="/rss.xml"
+							style="display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--text-2);"
+						>
+							@components.PixelIcon("rss", 14)
+							rss
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	}
+}

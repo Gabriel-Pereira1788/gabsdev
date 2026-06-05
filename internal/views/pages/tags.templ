@@ -1,0 +1,30 @@
+package pages
+
+import "gabsdev-go/internal/views/layouts"
+
+func getTagCategoryLabel(tags []string) string {
+	if len(tags) == 1 {
+		return "categoria"
+	}
+	return string(len(tags)) + " categorias"
+}
+
+templ TagsPage(pathname string, tags []string) {
+	@layouts.Layout("Tags", pathname) {
+		<div class="page enter">
+			<div class="min-list-head">
+				<span class="lbl">{ "// tags" }</span>
+			</div>
+			<p class="section-sub">
+				{ getTagCategoryLabel(tags) }
+			</p>
+			<div class="tag-grid">
+				for _, tag := range tags {
+					<a href={ templ.SafeURL("/articles?tag=" + tag) } class="tag-cell">
+						<span class="tag-cell-name">{ tag }</span>
+					</a>
+				}
+			</div>
+		</div>
+	}
+}

@@ -1,0 +1,122 @@
+package components
+
+var obsidianHandle = templ.NewOnceHandle()
+
+templ AsciiObsidian() {
+	<pre class="ascii-obsidian" id="ascii-obsidian" aria-hidden="true"></pre>
+	@obsidianHandle.Once() {
+		<script>
+			(function () {
+				const CRYSTAL_HEIGHT = 2.5
+				const CRYSTAL_WIDTH = 1.8
+				const K2 = 6
+
+				const VERTICES = [
+					[0, CRYSTAL_HEIGHT, 0],
+					[0, -CRYSTAL_HEIGHT, 0],
+					[CRYSTAL_WIDTH, 0, 0],
+					[-CRYSTAL_WIDTH, 0, 0],
+					[0, 0, CRYSTAL_WIDTH],
+					[0, 0, -CRYSTAL_WIDTH],
+					[CRYSTAL_WIDTH * 0.7, CRYSTAL_HEIGHT * 0.6, CRYSTAL_WIDTH * 0.7],
+					[-CRYSTAL_WIDTH * 0.7, CRYSTAL_HEIGHT * 0.6, CRYSTAL_WIDTH * 0.7],
+					[CRYSTAL_WIDTH * 0.7, CRYSTAL_HEIGHT * 0.6, -CRYSTAL_WIDTH * 0.7],
+					[-CRYSTAL_WIDTH * 0.7, CRYSTAL_HEIGHT * 0.6, -CRYSTAL_WIDTH * 0.7],
+				]
+
+				const FACES = [
+					[0,6,2],[0,2,8],[0,8,5],[0,5,9],[0,9,3],
+					[0,3,7],[0,7,4],[0,4,6],[1,2,6],[1,8,2],
+					[1,5,8],[1,9,5],[1,3,9],[1,7,3],[1,4,7],
+					[1,6,4],[6,4,7],[7,3,9],[9,5,8],[8,2,6],
+				]
+
+				function rotatePoint(p, A, B) {
+					const [x, y, z] = p
+					const x1 = x * Math.cos(B) - z * Math.sin(B)
+					const z1 = x * Math.sin(B) + z * Math.cos(B)
+					const y1 = y * Math.cos(A) - z1 * Math.sin(A)
+					const z2 = y * Math.sin(A) + z1 * Math.cos(A)
+					return [x1, y1, z2]
+				}
+
+				function calcNormal(v1, v2, v3) {
+					const e1 = [v2[0]-v1[0], v2[1]-v1[1], v2[2]-v1[2]]
+					const e2 = [v3[0]-v1[0], v3[1]-v1[1], v3[2]-v1[2]]
+					const n = [
+						e1[1]*e2[2]-e1[2]*e2[1],
+						e1[2]*e2[0]-e1[0]*e2[2],
+						e1[0]*e2[1]-e1[1]*e2[0],
+					]
+					const len = Math.sqrt(n[0]*n[0]+n[1]*n[1]+n[2]*n[2])
+					return len > 0 ? [n[0]/len, n[1]/len, n[2]/len] : [0,0,1]
+				}
+
+				function renderFrame(A, B, size, chars) {
+					const w = size * 2, h = size
+					const K1 = (size * K2 * 3) / (8 * CRYSTAL_WIDTH)
+					const out = new Array(w * h).fill(' ')
+					const zbuf = new Float32Array(w * h)
+					const light = [0.3, 0.7, -0.6]
+
+					const rv = VERTICES.map(v => rotatePoint(v, A, B))
+
+					for (const face of FACES) {
+						const v1 = rv[face[0]], v2 = rv[face[1]], v3 = rv[face[2]]
+						const n = calcNormal(v1, v2, v3)
+						const lum = n[0]*light[0]+n[1]*light[1]+n[2]*light[2]
+						if (lum <= 0) continue
+
+						for (let u = 0; u <= 1; u += 0.12) {
+							for (let v = 0; v <= 1 - u; v += 0.12) {
+								const wt = 1 - u - v
+								const px = u*v1[0]+v*v2[0]+wt*v3[0]
+								const py = u*v1[1]+v*v2[1]+wt*v3[1]
+								const pz = u*v1[2]+v*v2[2]+wt*v3[2]+K2
+								const ooz = 1/pz
+								const xp = Math.floor(w/2+K1*ooz*px)
+								const yp = Math.floor(h/2-K1*ooz*py)
+								if (xp>=0&&xp<w&&yp>=0&&yp<h) {
+									const idx = yp*w+xp
+									if (ooz>zbuf[idx]) {
+										zbuf[idx] = ooz
+										const ci = Math.max(0, Math.min(Math.floor(lum*(chars.length-1)), chars.length-1))
+										out[idx] = chars[ci]
+									}
+								}
+							}
+						}
+					}
+
+					let result = ''
+					for (let i = 0; i < h; i++) {
+						result += out.slice(i*w, (i+1)*w).join('')
+						if (i < h-1) result += '\n'
+					}
+					return result
+				}
+
+				const el = document.getElementById('ascii-obsidian')
+				if (!el) return
+
+				const SIZE = 30
+				const SPEED = 1
+				const CHARS = '  .:;=+*#%@'
+				let a = 0, b = 0, last = 0
+
+				function loop(t) {
+					if (!last) last = t
+					const dt = (t - last) / 1000
+					last = t
+					a += dt * (Math.PI * 2 / 6) * SPEED
+					b += dt * (Math.PI * 2 / 8) * SPEED
+					el.textContent = renderFrame(a, b, SIZE, CHARS)
+					requestAnimationFrame(loop)
+				}
+
+				el.textContent = renderFrame(0, 0, SIZE, CHARS)
+				requestAnimationFrame(loop)
+			})()
+		</script>
+	}
+}

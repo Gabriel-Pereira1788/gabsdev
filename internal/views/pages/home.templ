@@ -1,0 +1,63 @@
+package pages
+
+import (
+	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/utils"
+	"gabsdev-go/internal/views/components"
+	"gabsdev-go/internal/views/layouts"
+	"strconv"
+)
+
+const siteTagline = "Notas de engenharia, anotacoes de terminal e artigos tecnicos condensados."
+const siteSince = 2021
+
+templ HomePage(pathname string, posts []domain.Post, tags []string) {
+	@layouts.Layout("Home", pathname) {
+		<div class="enter">
+			<div class="home-min">
+				<div class="obsidian-stage">
+					@components.AsciiObsidian()
+				</div>
+				<h1 class="wordmark">
+					gabsdev<span class="blink-underscore">_</span>
+				</h1>
+				<p class="min-tag">{ siteTagline }</p>
+				<div class="min-meta">
+					<span>
+						<span class="k">{ strconv.Itoa(len(posts)) }</span> artigos
+					</span>
+					<span class="dot">.</span>
+					<span>
+						<span class="k">{ strconv.Itoa(len(tags)) }</span> tags
+					</span>
+					<span class="dot">.</span>
+					<span>
+						desde <span class="k">{ strconv.Itoa(siteSince) }</span>
+					</span>
+				</div>
+			</div>
+			<div class="min-list-wrap">
+				<div class="min-list-head">
+					<span class="lbl">RECENTES</span>
+					<a href="/articles" class="all">ver todos</a>
+				</div>
+				<div class="min-list">
+					for _, post := range recentPosts(posts) {
+						<a href={ templ.SafeURL("/articles/" + post.Slug) } class="min-row">
+							<span class="min-marker">&gt;</span>
+							<p class="min-title">{ post.Title }</p>
+							<span class="min-date">{ utils.FmtDate(post.Date) }</span>
+						</a>
+					}
+				</div>
+			</div>
+		</div>
+	}
+}
+
+func recentPosts(posts []domain.Post) []domain.Post {
+	if len(posts) <= 5 {
+		return posts
+	}
+	return posts[:5]
+}

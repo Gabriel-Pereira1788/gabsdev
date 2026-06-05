@@ -1,0 +1,46 @@
+package components
+
+import "strings"
+
+type navLink struct {
+	Href  string
+	Label string
+}
+
+var navLinks = []navLink{
+	{Href: "/", Label: "~/home"},
+	{Href: "/articles", Label: "~/articles"},
+	{Href: "/tags", Label: "~/tags"},
+	{Href: "/about", Label: "~/about"},
+}
+
+func isNavActive(href, pathname string) bool {
+	if href == "/" {
+		return pathname == "/"
+	}
+	return strings.HasPrefix(pathname, href)
+}
+
+templ Nav(pathname string) {
+	<nav class="nav">
+		<div class="nav-inner">
+			<a href="/" class="nav-brand">gabsdev</a>
+			<div class="nav-links">
+				for _, l := range navLinks {
+					if isNavActive(l.Href, pathname) {
+						<a href={ templ.SafeURL(l.Href) } class="nav-link active">{ l.Label }</a>
+					} else {
+						<a href={ templ.SafeURL(l.Href) } class="nav-link">{ l.Label }</a>
+					}
+				}
+			</div>
+			<button class="nav-theme-btn" onclick="toggleTheme()" title="Alternar tema">
+				<span id="nav-theme-icon">
+					<span class="icon-sun">@PixelIcon("sun", 14)</span>
+					<span class="icon-moon">@PixelIcon("moon", 14)</span>
+				</span>
+				<span id="nav-theme-label">dark</span>
+			</button>
+		</div>
+	</nav>
+}
