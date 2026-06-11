@@ -1,18 +1,34 @@
 package layouts
 
 import (
+	"gabsdev-go/internal/config"
 	"gabsdev-go/internal/i18n"
 	"gabsdev-go/internal/views/components"
 	"time"
 )
 
-templ Layout(title string, lang i18n.Lang, pathname string, fullPath string) {
+templ Layout(title string, description string, ogType string, lang i18n.Lang, pathname string, fullPath string) {
 	<!DOCTYPE html>
 	<html lang={ i18n.HTMLLang(lang) }>
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<title>{ title }</title>
+			<meta name="description" content={ description }/>
+			<link rel="canonical" href={ config.BaseURL() + fullPath }/>
+			<meta property="og:type" content={ ogType }/>
+			<meta property="og:site_name" content="gabsdev"/>
+			<meta property="og:title" content={ title }/>
+			<meta property="og:description" content={ description }/>
+			<meta property="og:url" content={ config.BaseURL() + fullPath }/>
+			<meta property="og:image" content={ config.BaseURL() + "/static/images/og.png" }/>
+			<meta property="og:image:width" content="1729"/>
+			<meta property="og:image:height" content="910"/>
+			<meta property="og:locale" content={ i18n.OGLocale(lang) }/>
+			<meta name="twitter:card" content="summary_large_image"/>
+			<meta name="twitter:title" content={ title }/>
+			<meta name="twitter:description" content={ description }/>
+			<meta name="twitter:image" content={ config.BaseURL() + "/static/images/og.png" }/>
 			<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 			<script>

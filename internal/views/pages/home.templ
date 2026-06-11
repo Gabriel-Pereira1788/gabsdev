@@ -12,7 +12,7 @@ import (
 const siteSince = 2021
 
 templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post, tags []string) {
-	@layouts.Layout(i18n.T(lang, "home.page_title"), lang, pathname, fullPath) {
+	@layouts.Layout(i18n.T(lang, "home.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath) {
 		<div class="enter">
 			<div class="home-min">
 				<div class="obsidian-stage">

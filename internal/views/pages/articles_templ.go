@@ -92,7 +92,7 @@ func ArticlesPage(lang i18n.Lang, pathname string, fullPath string, posts []doma
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Layout("Articles", lang, pathname, fullPath).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Layout("Articles", i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

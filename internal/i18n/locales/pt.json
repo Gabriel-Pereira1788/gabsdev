@@ -29,5 +29,6 @@
   "home.page_title": "Home",
   "tags.page_title": "Tags",
   "about.page_title": "Sobre",
+  "meta.description": "Blog técnico de Gabriel Pereira sobre desenvolvimento mobile e web — React Native, Go, TypeScript e arquitetura de software.",
   "test.pt_only": "pt-fallback-value"
 }

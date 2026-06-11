@@ -100,3 +100,10 @@ func HTMLLang(lang Lang) string {
 	}
 	return "pt-BR"
 }
+
+func OGLocale(lang Lang) string {
+	if lang == LangEN {
+		return "en_US"
+	}
+	return "pt_BR"
+}
