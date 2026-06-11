@@ -287,6 +287,11 @@ button {
 .nav-theme-btn:hover {
   color: var(--text-0);
 }
+.nav-actions {
+  display: flex;
+  gap: 14px;
+  flex-direction: row;
+}
 
 /* ---------- PROMPT LINE ---------- */
 .prompt {
