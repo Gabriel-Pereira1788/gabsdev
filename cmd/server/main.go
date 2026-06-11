@@ -16,6 +16,7 @@ func main() {
 	mux.HandleFunc("/articles/{slug}", handlers.ArticleDetail)
 	mux.HandleFunc("/about", handlers.About)
 	mux.HandleFunc("/tags", handlers.Tags)
+	mux.HandleFunc("/rss.xml", handlers.RSS)
 
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
