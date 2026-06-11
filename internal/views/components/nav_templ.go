@@ -18,9 +18,16 @@ type navLink struct {
 	Label string
 }
 
+func homePath(lang i18n.Lang) string {
+	if lang == i18n.LangEN {
+		return "/en"
+	}
+	return "/"
+}
+
 func navLinks(lang i18n.Lang) []navLink {
 	return []navLink{
-		{Href: i18n.Path(lang, "/"), Label: i18n.T(lang, "nav.home")},
+		{Href: homePath(lang), Label: i18n.T(lang, "nav.home")},
 		{Href: i18n.Path(lang, "/articles"), Label: i18n.T(lang, "nav.articles")},
 		{Href: i18n.Path(lang, "/tags"), Label: i18n.T(lang, "nav.tags")},
 		{Href: i18n.Path(lang, "/about"), Label: i18n.T(lang, "nav.about")},
@@ -29,7 +36,7 @@ func navLinks(lang i18n.Lang) []navLink {
 
 func isNavActive(href, pathname string) bool {
 	if href == "/" || href == "/en" {
-		return pathname == href || pathname == href+"/"
+		return pathname == href
 	}
 	return strings.HasPrefix(pathname, href)
 }
@@ -62,7 +69,7 @@ func Nav(lang i18n.Lang, pathname string, fullPath string) templ.Component {
 		var templ_7745c5c3_Var2 templ.SafeURL
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(i18n.Path(lang, "/")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 32, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 39, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -81,7 +88,7 @@ func Nav(lang i18n.Lang, pathname string, fullPath string) templ.Component {
 				var templ_7745c5c3_Var3 templ.SafeURL
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(l.Href))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 36, Col: 37}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 43, Col: 37}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -94,7 +101,7 @@ func Nav(lang i18n.Lang, pathname string, fullPath string) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(l.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 36, Col: 73}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 43, Col: 73}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -112,7 +119,7 @@ func Nav(lang i18n.Lang, pathname string, fullPath string) templ.Component {
 				var templ_7745c5c3_Var5 templ.SafeURL
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(l.Href))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 38, Col: 37}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 45, Col: 37}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
@@ -125,7 +132,7 @@ func Nav(lang i18n.Lang, pathname string, fullPath string) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(l.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 38, Col: 66}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 45, Col: 66}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -144,7 +151,7 @@ func Nav(lang i18n.Lang, pathname string, fullPath string) templ.Component {
 		var templ_7745c5c3_Var7 templ.SafeURL
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(i18n.ToggleURL(lang, fullPath)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 43, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 50, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -157,7 +164,7 @@ func Nav(lang i18n.Lang, pathname string, fullPath string) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(i18n.T(lang, "nav.lang_toggle"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 43, Col: 119}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 50, Col: 119}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {

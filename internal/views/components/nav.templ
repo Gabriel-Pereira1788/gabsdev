@@ -10,9 +10,16 @@ type navLink struct {
 	Label string
 }
 
+func homePath(lang i18n.Lang) string {
+	if lang == i18n.LangEN {
+		return "/en"
+	}
+	return "/"
+}
+
 func navLinks(lang i18n.Lang) []navLink {
 	return []navLink{
-		{Href: i18n.Path(lang, "/"), Label: i18n.T(lang, "nav.home")},
+		{Href: homePath(lang), Label: i18n.T(lang, "nav.home")},
 		{Href: i18n.Path(lang, "/articles"), Label: i18n.T(lang, "nav.articles")},
 		{Href: i18n.Path(lang, "/tags"), Label: i18n.T(lang, "nav.tags")},
 		{Href: i18n.Path(lang, "/about"), Label: i18n.T(lang, "nav.about")},
@@ -21,7 +28,7 @@ func navLinks(lang i18n.Lang) []navLink {
 
 func isNavActive(href, pathname string) bool {
 	if href == "/" || href == "/en" {
-		return pathname == href || pathname == href+"/"
+		return pathname == href
 	}
 	return strings.HasPrefix(pathname, href)
 }
