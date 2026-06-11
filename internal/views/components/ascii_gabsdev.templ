@@ -1,0 +1,60 @@
+package components
+
+var gabsdevHandle = templ.NewOnceHandle()
+
+templ AsciiGabsdev() {
+	<pre class="ascii-obsidian" id="ascii-obsidian" aria-hidden="true"></pre>
+	@gabsdevHandle.Once() {
+		<script>
+			(function () {
+				const art = [
+					" ██████╗  █████╗ ██████╗ ███████╗██████╗ ███████╗██╗   ██╗        ",
+					"██╔════╝ ██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝██║   ██║        ",
+					"██║  ███╗███████║██████╔╝███████╗██║  ██║█████╗  ██║   ██║        ",
+					"██║   ██║██╔══██║██╔══██╗╚════██║██║  ██║██╔══╝  ╚██╗ ██╔╝        ",
+					"╚██████╔╝██║  ██║██████╔╝███████║██████╔╝███████╗ ╚████╔╝ ███████╗",
+					" ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═════╝ ╚══════╝  ╚═══╝  ╚══════╝",
+				]
+
+				const el = document.getElementById('ascii-obsidian')
+				if (!el) return
+
+				const DURATION = 6000
+				const TWO_PI = Math.PI * 2
+
+				function loop() {
+					// ping-pong 0 -> 1 -> 0 so the wave travels right-to-left then left-to-right
+					const pos = performance.now() % (DURATION * 2)
+					const linear = pos < DURATION ? pos / DURATION : 1 - (pos - DURATION) / DURATION
+					// easeInOut, matches Easing.inOut(Easing.ease)
+					const eased = linear * linear * (3 - 2 * linear)
+					el.textContent = render(eased * TWO_PI)
+					requestAnimationFrame(loop)
+				}
+
+				function render(t) {
+					const lines = []
+					for (let y = 0; y < art.length; y++) {
+						const row = [...art[y]]
+						let line = ''
+						for (let x = 0; x < row.length; x++) {
+							const ch = row[x]
+							if (ch === ' ') { line += ' '; continue }
+							const wave = Math.sin(x * 0.05 + t * 1.0) * 0.5 + 0.5
+							const verticalWave = Math.sin(y * 0.2 + t * 0.8) * 0.5 + 0.5
+							const intensity = (wave * 0.6 + verticalWave * 0.4) * 0.5 + 0.5
+							if (intensity > 0.85) line += ch
+							else if (intensity > 0.70) line += '█'
+							else if (intensity > 0.55) line += '▓'
+							else line += '▒'
+						}
+						lines.push(line)
+					}
+					return lines.join('\n')
+				}
+
+				loop()
+			})()
+		</script>
+	}
+}

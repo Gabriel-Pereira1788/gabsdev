@@ -56,18 +56,18 @@ func HomePage(pathname string, posts []domain.Post, tags []string) templ.Compone
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.AsciiObsidian().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.AsciiGabsdev().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><h1 class=\"wordmark\">gabsdev<span class=\"blink-underscore\">_</span></h1><p class=\"min-tag\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><p class=\"min-tag\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(siteTagline)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 24, Col: 36}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 21, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -80,7 +80,7 @@ func HomePage(pathname string, posts []domain.Post, tags []string) templ.Compone
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(len(posts)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 27, Col: 48}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 24, Col: 48}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -93,7 +93,7 @@ func HomePage(pathname string, posts []domain.Post, tags []string) templ.Compone
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(len(tags)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 31, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 28, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -106,7 +106,7 @@ func HomePage(pathname string, posts []domain.Post, tags []string) templ.Compone
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(siteSince))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 35, Col: 53}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 32, Col: 53}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -124,7 +124,7 @@ func HomePage(pathname string, posts []domain.Post, tags []string) templ.Compone
 				var templ_7745c5c3_Var7 templ.SafeURL
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL("/articles/" + post.Slug))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 46, Col: 55}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 43, Col: 55}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
@@ -137,7 +137,7 @@ func HomePage(pathname string, posts []domain.Post, tags []string) templ.Compone
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(post.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 48, Col: 40}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 45, Col: 40}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -150,7 +150,7 @@ func HomePage(pathname string, posts []domain.Post, tags []string) templ.Compone
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(utils.FmtDate(post.Date))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 49, Col: 56}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 46, Col: 56}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {

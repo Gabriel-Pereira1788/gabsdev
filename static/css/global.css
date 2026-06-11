@@ -837,7 +837,7 @@ button {
 /* ---------- ASCII OBSIDIAN ---------- */
 .ascii-obsidian {
   font-family: var(--body-font);
-  font-size: 11px;
+  font-size: 21px;
   line-height: 1;
   letter-spacing: 0;
   color: var(--text-0);
@@ -868,7 +868,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
+
 }
 .home-min .wordmark {
   font-family: var(--pixel-font);
@@ -882,8 +882,8 @@ button {
 }
 .home-min .min-tag {
   color: var(--text-1);
-  font-size: 14px;
-  max-width: 440px;
+  font-size: 20px;
+  max-width: 550px;
   margin: 0 auto 22px;
   text-wrap: pretty;
 }
