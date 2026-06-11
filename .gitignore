@@ -16,9 +16,6 @@ vendor/
 # Air (live reload)
 tmp/
 
-# templ generated files
-**/*_templ.go
-
 # macOS
 .DS_Store
 .AppleDouble
