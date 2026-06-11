@@ -14,7 +14,7 @@ func getTagCategoryLabel(lang i18n.Lang, tags []string) string {
 }
 
 templ TagsPage(lang i18n.Lang, pathname string, fullPath string, tags []string) {
-	@layouts.Layout(i18n.T(lang, "tags.page_title"), lang, pathname, fullPath) {
+	@layouts.Layout(i18n.T(lang, "tags.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath) {
 		<div class="page enter">
 			<div class="min-list-head">
 				<span class="lbl">{ i18n.T(lang, "tags.title_label") }</span>

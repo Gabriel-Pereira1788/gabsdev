@@ -18,7 +18,7 @@ templ ArticlesDetailPage(
 	prev *domain.Post,
 	next *domain.Post,
 ) {
-	@layouts.Layout(post.Title, lang, pathname, fullPath) {
+	@layouts.Layout(post.Title, post.Excerpt, "article", lang, pathname, fullPath) {
 		<div class="page enter">
 
 			<div class="article-head">

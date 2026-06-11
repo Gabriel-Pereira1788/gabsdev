@@ -28,5 +28,6 @@
   "article.toc_label": "// index",
   "home.page_title": "Home",
   "tags.page_title": "Tags",
-  "about.page_title": "About"
+  "about.page_title": "About",
+  "meta.description": "Gabriel Pereira's technical blog on mobile and web development — React Native, Go, TypeScript and software architecture."
 }

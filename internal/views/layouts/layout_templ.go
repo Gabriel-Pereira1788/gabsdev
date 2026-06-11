@@ -9,12 +9,13 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
+	"gabsdev-go/internal/config"
 	"gabsdev-go/internal/i18n"
 	"gabsdev-go/internal/views/components"
 	"time"
 )
 
-func Layout(title string, lang i18n.Lang, pathname string, fullPath string) templ.Component {
+func Layout(title string, description string, ogType string, lang i18n.Lang, pathname string, fullPath string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -42,7 +43,7 @@ func Layout(title string, lang i18n.Lang, pathname string, fullPath string) temp
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.ResolveAttributeValue(i18n.HTMLLang(lang))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 11, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 12, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 		if templ_7745c5c3_Err != nil {
@@ -55,13 +56,156 @@ func Layout(title string, lang i18n.Lang, pathname string, fullPath string) temp
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 15, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 16, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</title><script src=\"https://unpkg.com/htmx.org@2.0.4\" integrity=\"sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+\" crossorigin=\"anonymous\"></script><script defer src=\"https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js\"></script><script>\n\t\t\tfunction applyThemeIcons(theme) {\n\t\t\t\tvar sun = document.querySelector('.icon-sun');\n\t\t\t\tvar moon = document.querySelector('.icon-moon');\n\t\t\t\tif (!sun || !moon) return;\n\t\t\t\tif (theme === 'dark') {\n\t\t\t\t\tsun.style.display = '';\n\t\t\t\t\tmoon.style.display = 'none';\n\t\t\t\t} else {\n\t\t\t\t\tsun.style.display = 'none';\n\t\t\t\t\tmoon.style.display = '';\n\t\t\t\t}\n\t\t\t}\n\t\t\t(function () {\n\t\t\t\tvar theme = localStorage.getItem('theme') || 'dark';\n\t\t\t\tdocument.documentElement.setAttribute('data-theme', theme);\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\t\tapplyThemeIcons(theme);\n\t\t\t\t\tvar label = document.getElementById('nav-theme-label');\n\t\t\t\t\tif (label) label.textContent = theme === 'dark' ? 'light' : 'dark';\n\t\t\t\t});\n\t\t\t})();\n\t\t\tfunction toggleTheme() {\n\t\t\t\tvar current = document.documentElement.getAttribute('data-theme');\n\t\t\t\tvar next = current === 'dark' ? 'light' : 'dark';\n\t\t\t\tdocument.documentElement.setAttribute('data-theme', next);\n\t\t\t\tlocalStorage.setItem('theme', next);\n\t\t\t\tvar label = document.getElementById('nav-theme-label');\n\t\t\t\tif (label) label.textContent = next === 'dark' ? 'light' : 'dark';\n\t\t\t\tapplyThemeIcons(next);\n\t\t\t}\n\t\t</script><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"anonymous\"><link href=\"https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&display=swap\" rel=\"stylesheet\"><link rel=\"icon\" href=\"/static/images/favicon.ico\" type=\"image/x-icon\"><link rel=\"stylesheet\" href=\"/static/css/global.css\"></head><body>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</title><meta name=\"description\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(description)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 17, Col: 49}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\"><link rel=\"canonical\" href=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var5 templ.SafeURL
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinURLErrs(config.BaseURL() + fullPath)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 18, Col: 59}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"><meta property=\"og:type\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.ResolveAttributeValue(ogType)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 19, Col: 44}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var6)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"><meta property=\"og:site_name\" content=\"gabsdev\"><meta property=\"og:title\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var7 string
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.ResolveAttributeValue(title)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 21, Col: 44}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var7)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\"><meta property=\"og:description\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.ResolveAttributeValue(description)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 22, Col: 56}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var8)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\"><meta property=\"og:url\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.ResolveAttributeValue(config.BaseURL() + fullPath)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 23, Col: 64}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var9)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\"><meta property=\"og:image\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var10 string
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.ResolveAttributeValue(config.BaseURL() + "/static/images/og.png")
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 24, Col: 81}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var10)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\"><meta property=\"og:image:width\" content=\"1729\"><meta property=\"og:image:height\" content=\"910\"><meta property=\"og:locale\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var11 string
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.ResolveAttributeValue(i18n.OGLocale(lang))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 27, Col: 59}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var11)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\"><meta name=\"twitter:card\" content=\"summary_large_image\"><meta name=\"twitter:title\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var12 string
+		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.ResolveAttributeValue(title)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 29, Col: 45}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var12)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\"><meta name=\"twitter:description\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var13 string
+		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.ResolveAttributeValue(description)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 30, Col: 57}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var13)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "\"><meta name=\"twitter:image\" content=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var14 string
+		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.ResolveAttributeValue(config.BaseURL() + "/static/images/og.png")
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 31, Col: 82}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var14)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\"><script src=\"https://unpkg.com/htmx.org@2.0.4\" integrity=\"sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+\" crossorigin=\"anonymous\"></script><script defer src=\"https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js\"></script><script>\n\t\t\tfunction applyThemeIcons(theme) {\n\t\t\t\tvar sun = document.querySelector('.icon-sun');\n\t\t\t\tvar moon = document.querySelector('.icon-moon');\n\t\t\t\tif (!sun || !moon) return;\n\t\t\t\tif (theme === 'dark') {\n\t\t\t\t\tsun.style.display = '';\n\t\t\t\t\tmoon.style.display = 'none';\n\t\t\t\t} else {\n\t\t\t\t\tsun.style.display = 'none';\n\t\t\t\t\tmoon.style.display = '';\n\t\t\t\t}\n\t\t\t}\n\t\t\t(function () {\n\t\t\t\tvar theme = localStorage.getItem('theme') || 'dark';\n\t\t\t\tdocument.documentElement.setAttribute('data-theme', theme);\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\t\tapplyThemeIcons(theme);\n\t\t\t\t\tvar label = document.getElementById('nav-theme-label');\n\t\t\t\t\tif (label) label.textContent = theme === 'dark' ? 'light' : 'dark';\n\t\t\t\t});\n\t\t\t})();\n\t\t\tfunction toggleTheme() {\n\t\t\t\tvar current = document.documentElement.getAttribute('data-theme');\n\t\t\t\tvar next = current === 'dark' ? 'light' : 'dark';\n\t\t\t\tdocument.documentElement.setAttribute('data-theme', next);\n\t\t\t\tlocalStorage.setItem('theme', next);\n\t\t\t\tvar label = document.getElementById('nav-theme-label');\n\t\t\t\tif (label) label.textContent = next === 'dark' ? 'light' : 'dark';\n\t\t\t\tapplyThemeIcons(next);\n\t\t\t}\n\t\t</script><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"anonymous\"><link href=\"https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&display=swap\" rel=\"stylesheet\"><link rel=\"icon\" href=\"/static/images/favicon.ico\" type=\"image/x-icon\"><link rel=\"stylesheet\" href=\"/static/css/global.css\"></head><body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -69,7 +213,7 @@ func Layout(title string, lang i18n.Lang, pathname string, fullPath string) temp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div id=\"app\"><div class=\"term-window\"><div class=\"term-titlebar\"><div class=\"term-dots\"><div class=\"term-dot\"></div><div class=\"term-dot\"></div><div class=\"term-dot filled\"></div></div><span class=\"term-title\">gabsdev — terminal blog</span> <span class=\"spacer\"></span></div><div class=\"term-body\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<div id=\"app\"><div class=\"term-window\"><div class=\"term-titlebar\"><div class=\"term-dots\"><div class=\"term-dot\"></div><div class=\"term-dot\"></div><div class=\"term-dot filled\"></div></div><span class=\"term-title\">gabsdev — terminal blog</span> <span class=\"spacer\"></span></div><div class=\"term-body\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -81,20 +225,20 @@ func Layout(title string, lang i18n.Lang, pathname string, fullPath string) temp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div><footer class=\"term-footer\"><span>gabsdev © ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div><footer class=\"term-footer\"><span>gabsdev © ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(time.Now().Year())
+		var templ_7745c5c3_Var15 string
+		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(time.Now().Year())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 74, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 90, Col: 42}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</span> <span><a href=\"/rss.xml\">rss</a> . <a href=\"https://github.com/Gabriel-Pereira1788\" target=\"_blank\" rel=\"noopener\">github</a></span></footer></div></div></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</span> <span><a href=\"/rss.xml\">rss</a> . <a href=\"https://github.com/Gabriel-Pereira1788\" target=\"_blank\" rel=\"noopener\">github</a></span></footer></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
