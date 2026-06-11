@@ -2,11 +2,12 @@ package services
 
 import (
 	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
 	"strings"
 )
 
-func SearchPosts(query, tag string) []domain.Post {
-	posts := GetPostsByTag(tag)
+func SearchPosts(lang i18n.Lang, query, tag string) []domain.Post {
+	posts := GetPostsByTag(lang, tag)
 	if query == "" {
 		return posts
 	}

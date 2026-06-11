@@ -1,32 +1,44 @@
 package components
 
-import "strings"
+import (
+	"gabsdev-go/internal/i18n"
+	"strings"
+)
 
 type navLink struct {
 	Href  string
 	Label string
 }
 
-var navLinks = []navLink{
-	{Href: "/", Label: "~/home"},
-	{Href: "/articles", Label: "~/articles"},
-	{Href: "/tags", Label: "~/tags"},
-	{Href: "/about", Label: "~/about"},
+func homePath(lang i18n.Lang) string {
+	if lang == i18n.LangEN {
+		return "/en"
+	}
+	return "/"
+}
+
+func navLinks(lang i18n.Lang) []navLink {
+	return []navLink{
+		{Href: homePath(lang), Label: i18n.T(lang, "nav.home")},
+		{Href: i18n.Path(lang, "/articles"), Label: i18n.T(lang, "nav.articles")},
+		{Href: i18n.Path(lang, "/tags"), Label: i18n.T(lang, "nav.tags")},
+		{Href: i18n.Path(lang, "/about"), Label: i18n.T(lang, "nav.about")},
+	}
 }
 
 func isNavActive(href, pathname string) bool {
-	if href == "/" {
-		return pathname == "/"
+	if href == "/" || href == "/en" {
+		return pathname == href
 	}
 	return strings.HasPrefix(pathname, href)
 }
 
-templ Nav(pathname string) {
+templ Nav(lang i18n.Lang, pathname string, fullPath string) {
 	<nav class="nav">
 		<div class="nav-inner">
-			<a href="/" class="nav-brand">gabsdev</a>
+			<a href={ templ.SafeURL(i18n.Path(lang, "/")) } class="nav-brand">gabsdev</a>
 			<div class="nav-links">
-				for _, l := range navLinks {
+				for _, l := range navLinks(lang) {
 					if isNavActive(l.Href, pathname) {
 						<a href={ templ.SafeURL(l.Href) } class="nav-link active">{ l.Label }</a>
 					} else {
@@ -34,13 +46,16 @@ templ Nav(pathname string) {
 					}
 				}
 			</div>
-			<button class="nav-theme-btn" onclick="toggleTheme()" title="Alternar tema">
-				<span id="nav-theme-icon">
-					<span class="icon-sun">@PixelIcon("sun", 14)</span>
-					<span class="icon-moon">@PixelIcon("moon", 14)</span>
-				</span>
-				<span id="nav-theme-label">dark</span>
-			</button>
+			<div class="nav-actions">
+				<a href={ templ.SafeURL(i18n.ToggleURL(lang, fullPath)) } class="nav-lang-toggle">{ i18n.T(lang, "nav.lang_toggle") }</a>
+				<button class="nav-theme-btn" onclick="toggleTheme()" title="Alternar tema">
+					<span id="nav-theme-icon">
+						<span class="icon-sun">@PixelIcon("sun", 14)</span>
+						<span class="icon-moon">@PixelIcon("moon", 14)</span>
+					</span>
+					<span id="nav-theme-label">dark</span>
+				</button>
+			</div>
 		</div>
 	</nav>
 }

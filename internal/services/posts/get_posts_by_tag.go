@@ -1,9 +1,12 @@
 package services
 
-import "gabsdev-go/internal/domain"
+import (
+	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
+)
 
-func GetPostsByTag(tag string) []domain.Post {
-	posts := GetPosts()
+func GetPostsByTag(lang i18n.Lang, tag string) []domain.Post {
+	posts := GetPosts(lang)
 	if tag == "" {
 		return posts
 	}

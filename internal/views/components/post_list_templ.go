@@ -8,9 +8,12 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "gabsdev-go/internal/domain"
+import (
+	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
+)
 
-func PostList(posts []domain.Post, activeTag string) templ.Component {
+func PostList(lang i18n.Lang, posts []domain.Post, activeTag string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -32,7 +35,7 @@ func PostList(posts []domain.Post, activeTag string) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		for _, post := range posts {
-			templ_7745c5c3_Err = PostRow(post, activeTag).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = PostRow(lang, post, activeTag).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

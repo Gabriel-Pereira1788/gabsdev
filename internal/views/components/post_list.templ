@@ -1,9 +1,12 @@
 package components
 
-import "gabsdev-go/internal/domain"
+import (
+	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
+)
 
-templ PostList(posts []domain.Post, activeTag string) {
+templ PostList(lang i18n.Lang, posts []domain.Post, activeTag string) {
 	for _, post := range posts {
-		@PostRow(post, activeTag)
+		@PostRow(lang, post, activeTag)
 	}
 }

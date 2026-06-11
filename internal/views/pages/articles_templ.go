@@ -10,18 +10,19 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
 	"gabsdev-go/internal/views/components"
 	"gabsdev-go/internal/views/layouts"
 )
 
-func getTagLabel(activeTag string) string {
+func getTagLabel(lang i18n.Lang, activeTag string) string {
 	if activeTag != "" {
 		return "// " + activeTag
 	}
-	return "// artigos"
+	return i18n.T(lang, "articles.title_label")
 }
 
-func ArticlesPage(pathname string, posts []domain.Post, tags []string, activeTag string) templ.Component {
+func ArticlesPage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post, tags []string, activeTag string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -54,14 +55,14 @@ func ArticlesPage(pathname string, posts []domain.Post, tags []string, activeTag
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"page enter\"><div class=\"min-list-head\"><span className=\"lbl\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"page enter\"><div class=\"min-list-head\"><span class=\"lbl\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(getTagLabel(activeTag))
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(getTagLabel(lang, activeTag))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/articles.templ`, Line: 20, Col: 50}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/articles.templ`, Line: 21, Col: 52}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -71,7 +72,7 @@ func ArticlesPage(pathname string, posts []domain.Post, tags []string, activeTag
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.SearchBar(activeTag).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.SearchBar(lang, activeTag).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -80,7 +81,7 @@ func ArticlesPage(pathname string, posts []domain.Post, tags []string, activeTag
 				return templ_7745c5c3_Err
 			}
 			for _, post := range posts {
-				templ_7745c5c3_Err = components.PostRow(post, activeTag).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = components.PostRow(lang, post, activeTag).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -91,7 +92,7 @@ func ArticlesPage(pathname string, posts []domain.Post, tags []string, activeTag
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Layout("Articles", pathname).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Layout("Articles", lang, pathname, fullPath).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

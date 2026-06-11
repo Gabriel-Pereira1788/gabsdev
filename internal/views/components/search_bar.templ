@@ -1,21 +1,23 @@
 package components
 
-func searchPlaceholder(activeTag string) string {
+import "gabsdev-go/internal/i18n"
+
+func searchPlaceholder(lang i18n.Lang, activeTag string) string {
 	if activeTag != "" {
-		return "buscar em #" + activeTag + "..."
+		return i18n.T(lang, "articles.search_placeholder_tag") + activeTag + "..."
 	}
-	return "buscar artigos..."
+	return i18n.T(lang, "articles.search_placeholder")
 }
 
-templ SearchBar(activeTag string) {
+templ SearchBar(lang i18n.Lang, activeTag string) {
 	<div class="search-wrap">
 		<input
 			class="search-input"
 			type="text"
 			name="q"
-			placeholder={ searchPlaceholder(activeTag) }
+			placeholder={ searchPlaceholder(lang, activeTag) }
 			autocomplete="off"
-			hx-get="/articles/search"
+			hx-get={ i18n.Path(lang, "/articles/search") }
 			hx-trigger="input changed delay:300ms, search"
 			hx-target="#post-list"
 			hx-swap="innerHTML"

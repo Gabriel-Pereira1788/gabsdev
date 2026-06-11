@@ -1,9 +1,12 @@
 package services
 
-import "gabsdev-go/internal/domain"
+import (
+	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
+)
 
-func GetPost(slug string) (domain.Post, bool) {
-	for _, post := range GetPosts() {
+func GetPost(lang i18n.Lang, slug string) (domain.Post, bool) {
+	for _, post := range GetPosts(lang) {
 		if post.Slug == slug {
 			return post, true
 		}
@@ -11,8 +14,8 @@ func GetPost(slug string) (domain.Post, bool) {
 	return domain.Post{}, false
 }
 
-func GetAdjacentPosts(slug string) (prev, next *domain.Post) {
-	posts := GetPosts()
+func GetAdjacentPosts(lang i18n.Lang, slug string) (prev, next *domain.Post) {
+	posts := GetPosts(lang)
 	for i, p := range posts {
 		if p.Slug == slug {
 			if i > 0 {

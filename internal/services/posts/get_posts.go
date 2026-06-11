@@ -7,14 +7,18 @@ import (
 	"strings"
 
 	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
 
 	"gopkg.in/yaml.v3"
 )
 
-const postsDir = "content/posts"
+func postsDir(lang i18n.Lang) string {
+	return filepath.Join("content/posts", string(lang))
+}
 
-func GetPosts() []domain.Post {
-	entries, err := os.ReadDir(postsDir)
+func GetPosts(lang i18n.Lang) []domain.Post {
+	dir := postsDir(lang)
+	entries, err := os.ReadDir(dir)
 	if err != nil {
 		return []domain.Post{}
 	}
@@ -26,14 +30,13 @@ func GetPosts() []domain.Post {
 		if !strings.HasSuffix(name, ".md") && !strings.HasSuffix(name, ".mdx") {
 			continue
 		}
-		post, err := parsePost(name)
+		post, err := parsePost(lang, name)
 		if err != nil {
 			continue
 		}
 		posts = append(posts, post)
 	}
 
-	// equivalente ao .sort((a, b) => b.date.localeCompare(a.date))
 	sort.Slice(posts, func(i, j int) bool {
 		return posts[i].Date > posts[j].Date
 	})
@@ -41,8 +44,8 @@ func GetPosts() []domain.Post {
 	return posts
 }
 
-func parsePost(filename string) (domain.Post, error) {
-	fullPath := filepath.Join(postsDir, filename)
+func parsePost(lang i18n.Lang, filename string) (domain.Post, error) {
+	fullPath := filepath.Join(postsDir(lang), filename)
 
 	raw, err := os.ReadFile(fullPath)
 	if err != nil {

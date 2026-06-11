@@ -1,7 +1,9 @@
 package services
 
-func GetUniqueTags() []string {
-	posts := GetPosts()
+import "gabsdev-go/internal/i18n"
+
+func GetUniqueTags(lang i18n.Lang) []string {
+	posts := GetPosts(lang)
 	seen := map[string]bool{}
 	var tags []string
 	for _, p := range posts {

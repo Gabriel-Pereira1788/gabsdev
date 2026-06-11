@@ -1,17 +1,18 @@
 package pages
 
 import (
+	"gabsdev-go/internal/i18n"
 	"gabsdev-go/internal/views/components"
 	"gabsdev-go/internal/views/layouts"
 	"strconv"
 )
 
-templ AboutPage(pathname string, postsCount int) {
-	@layouts.Layout("Sobre", pathname) {
+templ AboutPage(lang i18n.Lang, pathname string, fullPath string, postsCount int) {
+	@layouts.Layout(i18n.T(lang, "about.page_title"), lang, pathname, fullPath) {
 		<div class="page enter">
 
 			<div class="min-list-head" style="margin-bottom:32px;border-bottom:none;">
-				<span class="lbl">{ "// sobre" }</span>
+				<span class="lbl">{ i18n.T(lang, "about.title_label") }</span>
 			</div>
 
 			<div class="about-grid">
@@ -28,28 +29,27 @@ templ AboutPage(pathname string, postsCount int) {
 
 				<div>
 					<p style="font-size:15px;color:var(--text-1);line-height:1.8;margin-bottom:20px;">
-						Engenheiro de software. Escrevo sobre sistemas, compiladores e as coisas
-						que aprendo no caminho — com foco em entender de verdade, não só em usar.
+						{ i18n.T(lang, "about.bio1") }
 					</p>
 					<p style="font-size:15px;color:var(--text-1);line-height:1.8;margin-bottom:20px;">
-						Este blog é o lugar onde condenzo artigos técnicos e anoto o que valeu a pena registrar.
+						{ i18n.T(lang, "about.bio2") }
 					</p>
 
 					<div class="about-stats">
 						<div class="stat-row">
-							<span class="k">stack principal</span>
+							<span class="k">{ i18n.T(lang, "about.stat.stack") }</span>
 							<span class="v">React Native, TypeScript, Swift, Kotlin, Python</span>
 						</div>
 						<div class="stat-row">
-							<span class="k">editor</span>
+							<span class="k">{ i18n.T(lang, "about.stat.editor") }</span>
 							<span class="v">Zed</span>
 						</div>
 						<div class="stat-row">
-							<span class="k">artigos</span>
+							<span class="k">{ i18n.T(lang, "about.stat.articles") }</span>
 							<span class="v">{ strconv.Itoa(postsCount) }</span>
 						</div>
 						<div class="stat-row">
-							<span class="k">desde</span>
+							<span class="k">{ i18n.T(lang, "about.stat.since") }</span>
 							<span class="v">2021</span>
 						</div>
 					</div>

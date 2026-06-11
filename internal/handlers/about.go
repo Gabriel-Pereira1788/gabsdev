@@ -1,12 +1,16 @@
 package handlers
 
 import (
+	"net/http"
+
+	"gabsdev-go/internal/i18n"
 	services "gabsdev-go/internal/services/posts"
 	"gabsdev-go/internal/views/pages"
-	"net/http"
 )
 
-func About(w http.ResponseWriter, r *http.Request) {
-	postsCount := len(services.GetPosts())
-	pages.AboutPage(r.URL.Path, postsCount).Render(r.Context(), w)
+func About(lang i18n.Lang) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		postsCount := len(services.GetPosts(lang))
+		pages.AboutPage(lang, r.URL.Path, r.URL.RequestURI(), postsCount).Render(r.Context(), w)
+	}
 }

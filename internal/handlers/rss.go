@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"gabsdev-go/internal/i18n"
 	services "gabsdev-go/internal/services/posts"
 )
 
@@ -17,7 +18,7 @@ func RSS(w http.ResponseWriter, r *http.Request) {
 		siteURL = "https://gabsdev.dev"
 	}
 
-	posts := services.GetPosts()
+	posts := services.GetPosts(i18n.LangPT)
 
 	w.Header().Set("Content-Type", "application/rss+xml; charset=utf-8")
 
