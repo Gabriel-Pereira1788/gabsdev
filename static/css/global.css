@@ -669,7 +669,7 @@ button {
   left: 2px;
   color: var(--text-3);
 }
-.prose code {
+.prose :not(pre) > code {
   background: var(--surface-2);
   border: 1px solid var(--border);
   padding: 1px 6px;
@@ -693,9 +693,6 @@ button {
   background: var(--bg-0);
   margin: 0 0 24px;
   overflow: hidden;
-}
-[data-theme="light"] .codeblock {
-  background: var(--surface-1);
 }
 .codeblock-bar {
   display: flex;
@@ -1068,3 +1065,150 @@ button {
 .search-input::placeholder {
   color: var(--text-3);
 }
+
+/* ---------- PROSE CODE BLOCK WRAPPER ---------- */
+.prose .chroma {
+  border: 2px solid var(--border);
+  margin: 0 0 24px;
+  padding: 16px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ---------- CHROMA COLOR TOKENS (Night Owl) ---------- */
+:root,
+[data-theme="dark"] {
+  --ck-bg:        #011627;
+  --ck-fg:        #d6deeb;
+  --ck-keyword:   #c792ea;
+  --ck-type:      #82aaff;
+  --ck-fn:        #82aaff;
+  --ck-string:    #ecc48d;
+  --ck-number:    #f78c6c;
+  --ck-comment:   #637777;
+  --ck-op:        #7fdbca;
+  --ck-punct:     #d6deeb;
+  --ck-namespace: #addb67;
+  --ck-const:     #ff5874;
+  --ck-attr:      #addb67;
+  --ck-err-fg:    #ff5874;
+  --ck-err-bg:    #1f111b;
+  --ck-hl-bg:     #0d2a4a;
+  --ck-linenum:   #4b6479;
+}
+[data-theme="light"] {
+  --ck-bg:        #fbfbfb;
+  --ck-fg:        #403f53;
+  --ck-keyword:   #994cc3;
+  --ck-type:      #4876d6;
+  --ck-fn:        #4876d6;
+  --ck-string:    #c96765;
+  --ck-number:    #aa0982;
+  --ck-comment:   #989fb1;
+  --ck-op:        #0c969b;
+  --ck-punct:     #403f53;
+  --ck-namespace: #4876d6;
+  --ck-const:     #bc5454;
+  --ck-attr:      #4876d6;
+  --ck-err-fg:    #c94922;
+  --ck-err-bg:    #fde8e8;
+  --ck-hl-bg:     #dde4f2;
+  --ck-linenum:   #93a1a1;
+}
+
+/* ---------- CHROMA SYNTAX HIGHLIGHTING (Night Owl) ---------- */
+/* Wrapper + structural */
+.chroma { color: var(--ck-fg); background-color: var(--ck-bg); }
+.chroma .x   { color: var(--ck-fg); }
+.chroma .err { color: var(--ck-err-fg); background-color: var(--ck-err-bg); }
+.chroma .w   { color: inherit; }
+.chroma .cl  { display: inline; }
+.chroma .line { display: flex; }
+.chroma .hl  { background-color: var(--ck-hl-bg); }
+.chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+.chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+.chroma .ln  { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em; color: var(--ck-linenum); }
+.chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em; color: var(--ck-linenum); }
+/* Keywords */
+.chroma .k  { color: var(--ck-keyword); }
+.chroma .kc { color: var(--ck-const); }
+.chroma .kd { color: var(--ck-keyword); }
+.chroma .kn { color: var(--ck-keyword); }
+.chroma .kp { color: var(--ck-keyword); }
+.chroma .kr { color: var(--ck-keyword); }
+.chroma .kt { color: var(--ck-type); }
+/* Names */
+.chroma .n  { color: var(--ck-fg); }
+.chroma .na { color: var(--ck-attr); }
+.chroma .nb { color: var(--ck-type); }
+.chroma .bp { color: var(--ck-type); }
+.chroma .nc { color: var(--ck-type); }
+.chroma .no { color: var(--ck-const); }
+.chroma .nd { color: var(--ck-attr); }
+.chroma .ni { color: var(--ck-namespace); }
+.chroma .ne { color: var(--ck-type); }
+.chroma .nf { color: var(--ck-fn); }
+.chroma .fm { color: var(--ck-fn); }
+.chroma .py { color: var(--ck-fg); }
+.chroma .nl { color: var(--ck-fg); }
+.chroma .nn { color: var(--ck-namespace); }
+.chroma .nx { color: var(--ck-fg); }
+.chroma .nt { color: var(--ck-keyword); }
+.chroma .nv { color: var(--ck-fg); }
+.chroma .vc { color: var(--ck-fg); }
+.chroma .vg { color: var(--ck-fg); }
+.chroma .vi { color: var(--ck-fg); }
+.chroma .vm { color: var(--ck-fg); }
+/* Literals */
+.chroma .l  { color: var(--ck-string); }
+.chroma .ld { color: var(--ck-string); }
+/* Strings */
+.chroma .s  { color: var(--ck-string); }
+.chroma .sa { color: var(--ck-string); }
+.chroma .sb { color: var(--ck-string); }
+.chroma .sc { color: var(--ck-string); }
+.chroma .dl { color: var(--ck-string); }
+.chroma .sd { color: var(--ck-string); }
+.chroma .s2 { color: var(--ck-string); }
+.chroma .se { color: var(--ck-number); }
+.chroma .sh { color: var(--ck-string); }
+.chroma .si { color: var(--ck-string); }
+.chroma .sx { color: var(--ck-string); }
+.chroma .sr { color: var(--ck-string); }
+.chroma .s1 { color: var(--ck-string); }
+.chroma .ss { color: var(--ck-string); }
+/* Numbers */
+.chroma .m  { color: var(--ck-number); }
+.chroma .mb { color: var(--ck-number); }
+.chroma .mf { color: var(--ck-number); }
+.chroma .mh { color: var(--ck-number); }
+.chroma .mi { color: var(--ck-number); }
+.chroma .il { color: var(--ck-number); }
+.chroma .mo { color: var(--ck-number); }
+/* Operators */
+.chroma .o  { color: var(--ck-op); }
+.chroma .ow { color: var(--ck-keyword); }
+/* Punctuation */
+.chroma .p  { color: var(--ck-punct); }
+/* Comments */
+.chroma .c   { color: var(--ck-comment); font-style: italic; }
+.chroma .ch  { color: var(--ck-comment); font-style: italic; }
+.chroma .cm  { color: var(--ck-comment); font-style: italic; }
+.chroma .c1  { color: var(--ck-comment); font-style: italic; }
+.chroma .cs  { color: var(--ck-comment); font-style: italic; }
+.chroma .cp  { color: var(--ck-comment); }
+.chroma .cpf { color: var(--ck-comment); }
+/* Generic */
+.chroma .g  { color: var(--ck-fg); }
+.chroma .gd { color: var(--ck-const); }
+.chroma .ge { font-style: italic; }
+.chroma .gr { color: var(--ck-err-fg); }
+.chroma .gh { color: var(--ck-namespace); font-weight: bold; }
+.chroma .gi { color: var(--ck-namespace); }
+.chroma .go { color: var(--ck-comment); }
+.chroma .gp { color: var(--ck-comment); }
+.chroma .gs { font-weight: bold; }
+.chroma .gu { color: var(--ck-namespace); }
+.chroma .gt { color: var(--ck-err-fg); }
+.chroma .gl { text-decoration: underline; }

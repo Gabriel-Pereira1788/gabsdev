@@ -3,6 +3,7 @@ package utils
 import (
 	"bytes"
 
+	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
@@ -15,7 +16,10 @@ func RenderMarkdown(content string) string {
 		goldmark.WithExtensions(
 			extension.GFM,
 			highlighting.NewHighlighting(
-				highlighting.WithStyle("dracula"),
+				highlighting.WithStyle("nord"),
+				highlighting.WithFormatOptions(
+					chromahtml.WithClasses(true),
+				),
 			),
 		),
 		goldmark.WithParserOptions(
