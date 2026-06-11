@@ -1,13 +1,14 @@
 package layouts
 
 import (
+	"gabsdev-go/internal/i18n"
 	"gabsdev-go/internal/views/components"
 	"time"
 )
 
-templ Layout(title string, pathname string) {
+templ Layout(title string, lang i18n.Lang, pathname string, fullPath string) {
 	<!DOCTYPE html>
-	<html lang="pt-BR">
+	<html lang={ i18n.HTMLLang(lang) }>
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -66,7 +67,7 @@ templ Layout(title string, pathname string) {
 						<span class="spacer"></span>
 					</div>
 					<div class="term-body">
-						@components.Nav(pathname)
+						@components.Nav(lang, pathname, fullPath)
 						{ children... }
 					</div>
 					<footer class="term-footer">

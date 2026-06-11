@@ -1,26 +1,30 @@
 package pages
 
-import "gabsdev-go/internal/views/layouts"
+import (
+	"gabsdev-go/internal/i18n"
+	"gabsdev-go/internal/views/layouts"
+	"strconv"
+)
 
-func getTagCategoryLabel(tags []string) string {
+func getTagCategoryLabel(lang i18n.Lang, tags []string) string {
 	if len(tags) == 1 {
-		return "categoria"
+		return "1 " + i18n.T(lang, "tags.category_singular")
 	}
-	return string(len(tags)) + " categorias"
+	return strconv.Itoa(len(tags)) + " " + i18n.T(lang, "tags.category_plural")
 }
 
-templ TagsPage(pathname string, tags []string) {
-	@layouts.Layout("Tags", pathname) {
+templ TagsPage(lang i18n.Lang, pathname string, fullPath string, tags []string) {
+	@layouts.Layout("Tags", lang, pathname, fullPath) {
 		<div class="page enter">
 			<div class="min-list-head">
-				<span class="lbl">{ "// tags" }</span>
+				<span class="lbl">{ i18n.T(lang, "tags.title_label") }</span>
 			</div>
 			<p class="section-sub">
-				{ getTagCategoryLabel(tags) }
+				{ getTagCategoryLabel(lang, tags) }
 			</p>
 			<div class="tag-grid">
 				for _, tag := range tags {
-					<a href={ templ.SafeURL("/articles?tag=" + tag) } class="tag-cell">
+					<a href={ templ.SafeURL(i18n.Path(lang, "/articles?tag="+tag)) } class="tag-cell">
 						<span class="tag-cell-name">{ tag }</span>
 					</a>
 				}

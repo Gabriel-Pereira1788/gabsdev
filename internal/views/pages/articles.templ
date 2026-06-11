@@ -2,27 +2,28 @@ package pages
 
 import (
 	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
 	"gabsdev-go/internal/views/components"
 	"gabsdev-go/internal/views/layouts"
 )
 
-func getTagLabel(activeTag string) string {
+func getTagLabel(lang i18n.Lang, activeTag string) string {
 	if activeTag != "" {
 		return "// " + activeTag
 	}
-	return "// artigos"
+	return i18n.T(lang, "articles.title_label")
 }
 
-templ ArticlesPage(pathname string, posts []domain.Post, tags []string, activeTag string) {
-	@layouts.Layout("Articles", pathname) {
+templ ArticlesPage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post, tags []string, activeTag string) {
+	@layouts.Layout("Articles", lang, pathname, fullPath) {
 		<div class="page enter">
 			<div class="min-list-head">
-				<span className="lbl">{ getTagLabel(activeTag) }</span>
+				<span class="lbl">{ getTagLabel(lang, activeTag) }</span>
 			</div>
-			@components.SearchBar(activeTag)
+			@components.SearchBar(lang, activeTag)
 			<div class="post-list" id="post-list">
 				for _, post := range posts {
-					@components.PostRow(post, activeTag)
+					@components.PostRow(lang, post, activeTag)
 				}
 			</div>
 		</div>

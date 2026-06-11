@@ -8,16 +8,20 @@ package pages
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "gabsdev-go/internal/views/layouts"
+import (
+	"gabsdev-go/internal/i18n"
+	"gabsdev-go/internal/views/layouts"
+	"strconv"
+)
 
-func getTagCategoryLabel(tags []string) string {
+func getTagCategoryLabel(lang i18n.Lang, tags []string) string {
 	if len(tags) == 1 {
-		return "categoria"
+		return "1 " + i18n.T(lang, "tags.category_singular")
 	}
-	return string(len(tags)) + " categorias"
+	return strconv.Itoa(len(tags)) + " " + i18n.T(lang, "tags.category_plural")
 }
 
-func TagsPage(pathname string, tags []string) templ.Component {
+func TagsPage(lang i18n.Lang, pathname string, fullPath string, tags []string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -55,9 +59,9 @@ func TagsPage(pathname string, tags []string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("// tags")
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(i18n.T(lang, "tags.title_label"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/tags.templ`, Line: 16, Col: 33}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/tags.templ`, Line: 20, Col: 56}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -68,9 +72,9 @@ func TagsPage(pathname string, tags []string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(getTagCategoryLabel(tags))
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(getTagCategoryLabel(lang, tags))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/tags.templ`, Line: 19, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/tags.templ`, Line: 23, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -86,9 +90,9 @@ func TagsPage(pathname string, tags []string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var5 templ.SafeURL
-				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL("/articles?tag=" + tag))
+				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(i18n.Path(lang, "/articles?tag="+tag)))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/tags.templ`, Line: 23, Col: 52}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/tags.templ`, Line: 27, Col: 67}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
@@ -101,7 +105,7 @@ func TagsPage(pathname string, tags []string) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(tag)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/tags.templ`, Line: 24, Col: 39}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/tags.templ`, Line: 28, Col: 39}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -118,7 +122,7 @@ func TagsPage(pathname string, tags []string) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Layout("Tags", pathname).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Layout("Tags", lang, pathname, fullPath).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

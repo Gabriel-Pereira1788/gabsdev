@@ -1,8 +1,11 @@
 package components
 
-import "gabsdev-go/internal/domain"
-import "gabsdev-go/internal/utils"
-import "strconv"
+import (
+	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
+	"gabsdev-go/internal/utils"
+	"strconv"
+)
 
 func getTagClass(tag, activeTag string) string {
 	if tag == activeTag {
@@ -11,10 +14,10 @@ func getTagClass(tag, activeTag string) string {
 	return "tag"
 }
 
-templ PostRow(post domain.Post, activeTag string) {
+templ PostRow(lang i18n.Lang, post domain.Post, activeTag string) {
 	<a
 		class="post-row"
-		href={ templ.SafeURL("/articles/" + post.Slug) }
+		href={ templ.SafeURL(i18n.Path(lang, "/articles/"+post.Slug)) }
 	>
 		<span class="marker">{ ">" }</span>
 		<div class="post-main">
@@ -24,10 +27,10 @@ templ PostRow(post domain.Post, activeTag string) {
 				for _, tag := range post.Tags {
 					<span
 						class={ getTagClass(tag, activeTag) }
-						hx-get={ "/articles/search?tag=" + tag }
+						hx-get={ i18n.Path(lang, "/articles/search?tag="+tag) }
 						hx-target="#post-list"
 						hx-swap="innerHTML"
-						hx-push-url={ "/articles?tag=" + tag }
+						hx-push-url={ i18n.Path(lang, "/articles?tag="+tag) }
 						onclick="event.stopPropagation(); document.querySelector('.search-input').value=''"
 					>{ tag }</span>
 				}
@@ -35,7 +38,7 @@ templ PostRow(post domain.Post, activeTag string) {
 		</div>
 		<div class="post-meta-right">
 			<span>{ utils.FmtDate(post.Date) }</span>
-			<span class="read">{ strconv.Itoa(post.ReadMin) } min</span>
+			<span class="read">{ strconv.Itoa(post.ReadMin) } { i18n.T(lang, "articles.read_min") }</span>
 		</div>
 	</a>
 }

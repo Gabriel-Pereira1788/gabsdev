@@ -2,25 +2,28 @@ package pages
 
 import (
 	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
 	"gabsdev-go/internal/utils"
 	"gabsdev-go/internal/views/layouts"
 	"strconv"
 )
 
 templ ArticlesDetailPage(
+	lang i18n.Lang,
 	pathname string,
+	fullPath string,
 	post domain.Post,
 	renderedContent string,
 	toc []utils.TOCItem,
 	prev *domain.Post,
 	next *domain.Post,
 ) {
-	@layouts.Layout(post.Title, pathname) {
+	@layouts.Layout(post.Title, lang, pathname, fullPath) {
 		<div class="page enter">
 
 			<div class="article-head">
 				<nav class="breadcrumb">
-					<a href="/articles">artigos</a>
+					<a href={ templ.SafeURL(i18n.Path(lang, "/articles")) }>{ i18n.T(lang, "articles.breadcrumb") }</a>
 					<span class="sep">/</span>
 					<span>{ post.Title }</span>
 				</nav>
@@ -28,10 +31,10 @@ templ ArticlesDetailPage(
 				<div class="article-meta">
 					<span>{ utils.FmtDate(post.Date) }</span>
 					<span class="sep">·</span>
-					<span>{ strconv.Itoa(post.ReadMin) } min</span>
+					<span>{ strconv.Itoa(post.ReadMin) } { i18n.T(lang, "articles.read_min") }</span>
 					<div class="post-tags">
 						for _, tag := range post.Tags {
-							<a class="tag" href={ templ.SafeURL("/articles?tag=" + tag) }>{ tag }</a>
+							<a class="tag" href={ templ.SafeURL(i18n.Path(lang, "/articles?tag="+tag)) }>{ tag }</a>
 						}
 					</div>
 				</div>
@@ -43,7 +46,7 @@ templ ArticlesDetailPage(
 				</div>
 				if len(toc) > 0 {
 					<nav class="toc">
-						<div class="toc-title">{ "// índice" }</div>
+						<div class="toc-title">{ i18n.T(lang, "article.toc_label") }</div>
 						for _, item := range toc {
 							<a href={ templ.SafeURL("#" + item.ID) } data-toc={ item.ID } class="toc-link">{ item.Title }</a>
 						}
@@ -53,13 +56,13 @@ templ ArticlesDetailPage(
 
 			<div class="article-end">
 				if prev != nil {
-					<a class="end-link" href={ templ.SafeURL("/articles/" + prev.Slug) }>
+					<a class="end-link" href={ templ.SafeURL(i18n.Path(lang, "/articles/"+prev.Slug)) }>
 						<span class="sep">←</span>
 						{ prev.Title }
 					</a>
 				}
 				if next != nil {
-					<a class="end-link" href={ templ.SafeURL("/articles/" + next.Slug) }>
+					<a class="end-link" href={ templ.SafeURL(i18n.Path(lang, "/articles/"+next.Slug)) }>
 						{ next.Title }
 						<span class="sep">→</span>
 					</a>
