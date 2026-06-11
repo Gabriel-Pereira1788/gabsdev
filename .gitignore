@@ -31,3 +31,4 @@ tmp/
 .env
 .env.*
 !.env.example
+articles-example.md
