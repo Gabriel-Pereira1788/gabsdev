@@ -25,5 +25,9 @@
   "about.stat.editor": "editor",
   "about.stat.articles": "artigos",
   "about.stat.since": "desde",
-  "article.toc_label": "// índice"
+  "article.toc_label": "// índice",
+  "home.page_title": "Home",
+  "tags.page_title": "Tags",
+  "about.page_title": "Sobre",
+  "test.pt_only": "pt-fallback-value"
 }

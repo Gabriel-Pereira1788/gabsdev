@@ -19,10 +19,9 @@ func TestT_KnownKeys(t *testing.T) {
 }
 
 func TestT_FallbackToPT(t *testing.T) {
-	ptVal := i18n.T(i18n.LangPT, "home.since")
-	enVal := i18n.T(i18n.LangEN, "home.since")
-	if ptVal == enVal {
-		t.Errorf("expected PT and EN values to differ for 'home.since', both got %q", ptVal)
+	got := i18n.T(i18n.LangEN, "test.pt_only")
+	if got != "pt-fallback-value" {
+		t.Errorf("expected PT fallback value %q, got %q", "pt-fallback-value", got)
 	}
 }
 
