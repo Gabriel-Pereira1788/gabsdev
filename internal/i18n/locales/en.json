@@ -25,5 +25,8 @@
   "about.stat.editor": "editor",
   "about.stat.articles": "articles",
   "about.stat.since": "since",
-  "article.toc_label": "// index"
+  "article.toc_label": "// index",
+  "home.page_title": "Home",
+  "tags.page_title": "Tags",
+  "about.page_title": "About"
 }
