@@ -1,7 +1,7 @@
 [build]
   cmd = "~/go/bin/templ generate && go build -o ./tmp/main ./cmd/server/main.go"
   entrypoint = "./tmp/main"
-  include_ext = ["go", "templ"]
+  include_ext = ["go", "templ", "json"]
   exclude_dir = ["tmp", "vendor", "content", "static"]
   delay = 500
   kill_delay = 500

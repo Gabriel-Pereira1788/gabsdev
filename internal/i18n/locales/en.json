@@ -3,7 +3,7 @@
   "nav.articles": "~/articles",
   "nav.tags": "~/tags",
   "nav.about": "~/about",
-  "nav.lang_toggle": "PT",
+  "nav.lang_toggle": "EN",
   "site.tagline": "Engineering notes, terminal annotations and condensed technical articles.",
   "home.articles": "articles",
   "home.tags": "tags",

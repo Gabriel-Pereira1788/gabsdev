@@ -15,6 +15,7 @@
 
   --text-0: #ffffff;
   --text-1: #a6a6a6;
+  --text-prose: #d4d4d4;
   --text-2: #6e6e6e;
   --text-3: #5c5c5c;
 
@@ -39,6 +40,7 @@
 
   --text-0: #0a0a0a;
   --text-1: #4a4a46;
+  --text-prose: #3a3a37;
   --text-2: #777269;
   --text-3: #9a968c;
 
@@ -622,13 +624,14 @@ button {
 
 /* prose */
 .prose {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.8;
   color: var(--text-0);
 }
 .prose p {
   margin: 0 0 20px;
-  color: var(--text-1);
+  color: var(--text-prose);
+  font-weight: 500;
   text-wrap: pretty;
 }
 .prose h2 {
@@ -663,7 +666,8 @@ button {
   list-style: none;
 }
 .prose li {
-  color: var(--text-1);
+  color: var(--text-prose);
+  font-weight: 500;
   margin: 0 0 8px;
   padding-left: 20px;
   position: relative;
@@ -685,7 +689,7 @@ button {
   border-left: 3px solid var(--border-strong);
   margin: 0 0 22px;
   padding: 6px 18px;
-  color: var(--text-1);
+  color: var(--text-prose);
   background: var(--bg-2);
 }
 .prose blockquote p {
