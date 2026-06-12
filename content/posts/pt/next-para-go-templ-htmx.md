@@ -2,11 +2,11 @@
 title: "Reescrevendo este blog: de Next.js para Go + templ + HTMX"
 date: "2026-06-11"
 tags: ["go", "templ", "htmx", "nextjs", "web"]
-excerpt: "Será que todo site de conteúdo precisa mesmo de um SPA com React? Reescrevi este próprio blog em Go puro, templ e HTMX para responder essa pergunta na prática."
+excerpt: "Será que todo site precisa mesmo de um Next.js da vida, ou dá para simplificar as coisas? Reescrevi este próprio blog em Go puro, templ e HTMX para responder essa pergunta na prática."
 readMin: 10
 ---
 
-Se há uma decisão que virou quase automática no desenvolvimento web moderno, é começar todo projeto com um framework de SPA. Você quer um blog? Next. Um portfólio? Next. Uma landing page? Next. Mas afinal, será que todo site de conteúdo precisa mesmo de um SPA com React rodando por baixo?
+Se há uma decisão que virou quase automática no desenvolvimento web moderno, é começar todo projeto com o mesmo suspeito de sempre. Você quer um blog? Next. Um portfólio? Next. Uma landing page? Next. Mas afinal, será que todo site precisa mesmo de um Next.js da vida, ou dá para simplificar as coisas?
 
 Esse blog que você está lendo agora começou exatamente assim: um projeto Next.js. Neste artigo vou te mostrar como eu o reescrevi do zero em **Go puro, templ e HTMX**. E, mais importante que o "como", por que esse caminho faz sentido para um site que é, no fim das contas, majoritariamente conteúdo.
 
@@ -14,13 +14,23 @@ Esse blog que você está lendo agora começou exatamente assim: um projeto Next
 
 Antes de falar da solução, vamos entender o problema. Um site como esse tem uma natureza simples: ele renderiza uma lista de artigos, mostra um artigo, filtra por tags. Quase nada disso é *interativo* de verdade. É conteúdo que precisa chegar rápido e ser lido.
 
-Só que o stack de SPA cobra um preço por padrão, mesmo quando você não precisa dele:
+O Next renderiza no servidor, sim, ninguém está dizendo o contrário. Mas ele ainda manda o React para o navegador e hidrata a página no cliente. E esse pacote cobra um preço por padrão, mesmo quando você não precisa dele:
 
 - Um bundle de JavaScript que o navegador precisa baixar, parsear e executar antes da página ficar útil.
 - Hidratação: o servidor manda HTML, e o cliente reexecuta tudo para "dar vida" a esse HTML.
 - Um pipeline de build com dezenas de dependências que envelhecem rápido.
 
 Para uma aplicação cheia de estado no cliente, esse custo se paga. Para um blog, você está carregando um caminhão para entregar uma carta. **Um ponto importante a destacar é que** o problema não é o React. É usar a ferramenta de interatividade pesada num lugar onde a interatividade é a exceção, não a regra.
+
+## A simplicidade como escolha
+
+Vale separar dois tipos de complexidade. Existe a essencial, que é o problema em si: renderizar artigos, buscar, filtrar por tag. E existe a acidental, que é a que a ferramenta arrasta junto sem o problema pedir. O Next resolve a parte essencial muito bem, mas cobra uma boa dose da acidental: um runtime para hidratar, um pipeline de build, um grafo de dependências para manter de pé. Para este blog, quase todo esse peso era acidental.
+
+Trocar de stack foi, antes de tudo, jogar peça fora. Não tem `node_modules` para instalar, não tem toolchain de Node para versionar, não tem build de frontend para quebrar numa atualização de dependência. O que sobra é um binário Go e alguns arquivos `.templ`. Menos peças significam menos superfície que envelhece, menos coisa para atualizar quando uma biblioteca resolve mudar a API.
+
+E tem um ganho que não aparece em nenhum bundle: o projeto inteiro cabe na cabeça. O caminho de qualquer requisição é sempre o mesmo, Rota → Handler → Service → Componente, e dá para segui-lo de ponta a ponta sem abrir a documentação de três bibliotecas. Simplicidade aqui não é fazer menos. **É tirar o que não estava ajudando, para que o que sobra seja fácil de entender e difícil de quebrar.**
+
+Agora que está claro por que simplificar compensa, vamos ver o modelo mental que torna tudo isso possível.
 
 ## A pirâmide invertida: HTML no servidor
 
@@ -135,7 +145,11 @@ O clique numa tag segue exatamente a mesma ideia, com um bônus de `hx-push-url`
 
 ## Conteúdo como arquivo, não banco
 
-Tem mais uma decisão que a reescrita deixou cair por terra: o banco de dados. Para um blog, o conteúdo são os artigos, e artigos são texto. Então cada post é um arquivo Markdown em `content/posts/`, com um frontmatter YAML no topo (inclusive este que você está lendo).
+Tem mais uma decisão que a reescrita deixou cair por terra, pelo menos por enquanto: o banco de dados. E aqui vale uma honestidade sobre o estado atual do projeto. Eu decidi, de propósito, não subir banco nenhum agora. A ideia foi a mais simples possível: escrever cada artigo num Markdown e guardar localmente, versionado junto com o código.
+
+**Um ponto importante a destacar é que** essa é uma escolha temporária, não um dogma. Lá na frente eu pretendo migrar todo esse conteúdo para um banco de verdade e construir um dashboard administrativo, só para ter um controle razoável dos dados. Mas para o estágio em que o blog está hoje, banco seria mais peça para manter do que problema resolvido. Então vamos com o caminho mais leve enquanto ele dá conta.
+
+Na prática, o conteúdo de um blog são os artigos, e artigos são texto. Cada post vira um arquivo Markdown em `content/posts/`, com um frontmatter YAML no topo (inclusive este que você está lendo).
 
 O service lê a pasta, separa o frontmatter do corpo num `SplitN` por `---`, e passa o Markdown pelo goldmark com GFM e syntax highlighting:
 
@@ -164,11 +178,11 @@ Reescrever esse blog rendeu ganhos concretos frente ao Next:
 - **Type-safety de ponta a ponta.** O mesmo compilador que valida o service valida o template.
 - **Simplicidade que cabe na cabeça.** Rota → Handler → Service → Componente. Dá para ler o projeto inteiro numa tarde.
 
-Mas eu não estaria sendo honesto se vendesse isso como mágica. O ecossistema de Go + HTMX é menor que o do React. Você vai achar menos componentes prontos e menos respostas no Stack Overflow. E interações realmente ricas (um editor de texto, um canvas, drag-and-drop complexo) ainda pedem JavaScript de verdade; o HTMX brilha na troca de fragmentos, não em estado complexo de cliente. A questão nunca foi "qual é melhor", e sim **qual o peso certo para o problema certo**.
+Mas eu não estaria sendo honesto se vendesse isso como mágica. O ecossistema de Go + HTMX é menor que o do React. Você vai achar menos componentes prontos e menos respostas no Stack Overflow. E interações realmente ricas (um editor de texto, um canvas, drag-and-drop complexo) ainda pedem JavaScript de verdade. O HTMX brilha na troca de fragmentos, não em estado complexo de cliente. Existem boas soluções para cobrir essa lacuna de reatividade, como o Alpine.js, que se encaixa bem ao lado do HTMX para o estado local que mora no navegador. Ainda assim, a questão nunca foi "qual é melhor", e sim **qual o peso certo para o problema certo**.
 
 ## Conclusão
 
-Foi um trajeto e tanto sair de um SPA e chegar num servidor que devolve HTML pronto 🚀. Demos uma olhada em como o Go segura o roteamento sozinho, como o templ traz a ergonomia do JSX com checagem de tipos, e como o HTMX dá interatividade sem arrastar um framework inteiro junto.
+Foi um trajeto e tanto sair do Next e chegar num servidor que devolve HTML pronto 🚀. Demos uma olhada em como o Go segura o roteamento sozinho, como o templ traz a ergonomia do JSX com checagem de tipos, e como o HTMX dá interatividade sem arrastar um framework inteiro junto.
 
 Que fique claro: isso não é um manifesto anti-React. O Next continua sendo uma escolha excelente para aplicações de verdade cheias de estado no cliente. O ponto é outro. Antes de aceitar o default, vale perguntar de quanta interatividade o seu projeto realmente precisa. No caso deste blog, a resposta era "quase nenhuma", e o stack passou a refletir isso.
 

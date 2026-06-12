@@ -2,11 +2,11 @@
 title: "Rewriting this blog: from Next.js to Go + templ + HTMX"
 date: "2026-06-11"
 tags: ["go", "templ", "htmx", "nextjs", "web"]
-excerpt: "Does every content site really need a React SPA underneath? I rewrote this very blog in plain Go, templ and HTMX to answer that question in practice."
+excerpt: "Does every site really need a full-blown Next.js, or can we simplify things? I rewrote this very blog in plain Go, templ and HTMX to answer that question in practice."
 readMin: 10
 ---
 
-If there's one decision that has become almost automatic in modern web development, it's starting every project with an SPA framework. Want a blog? Next. A portfolio? Next. A landing page? Next. But after all, does every content site really need a React SPA running underneath it?
+If there's one decision that has become almost automatic in modern web development, it's reaching for the same usual suspect on every project. Want a blog? Next. A portfolio? Next. A landing page? Next. But after all, does every site really need a full-blown Next.js, or can we simplify things?
 
 This blog you're reading right now started exactly like that: a Next.js project. In this article I'll show you how I rewrote it from scratch in **plain Go, templ and HTMX**. And, more important than the "how", why this path makes sense for a site that is, at the end of the day, mostly content.
 
@@ -14,13 +14,23 @@ This blog you're reading right now started exactly like that: a Next.js project.
 
 Before we talk about the solution, let's understand the problem. A site like this one has a simple nature: it renders a list of articles, shows an article, filters by tags. Almost none of that is *truly* interactive. It's content that needs to arrive fast and be read.
 
-The thing is, the SPA stack charges a price by default, even when you don't need it:
+Next does render on the server, sure, nobody's saying otherwise. But it still ships React to the browser and hydrates the page on the client. And that package charges a price by default, even when you don't need it:
 
 - A JavaScript bundle the browser has to download, parse and execute before the page becomes useful.
 - Hydration: the server sends HTML, and the client re-runs everything to "bring that HTML to life".
 - A build pipeline with dozens of dependencies that age quickly.
 
 For an app full of client-side state, that cost pays off. For a blog, you're loading a truck to deliver a letter. **One important point to highlight is that** the problem isn't React. It's using the heavy interactivity tool in a place where interactivity is the exception, not the rule.
+
+## Simplicity as a choice
+
+It's worth separating two kinds of complexity. There's the essential one, which is the problem itself: rendering articles, searching, filtering by tag. And there's the accidental one, the kind the tool drags along without the problem asking for it. Next handles the essential part very well, but it charges a fair dose of the accidental: a runtime to hydrate, a build pipeline, a dependency graph to keep standing. For this blog, almost all of that weight was accidental.
+
+Switching stacks was, above all, throwing pieces away. There's no `node_modules` to install, no Node toolchain to version, no frontend build to break on a dependency bump. What's left is a Go binary and a handful of `.templ` files. Fewer pieces means less surface that ages, less to update when some library decides to change its API.
+
+And there's a gain that shows up in no bundle: the whole project fits in your head. The path of any request is always the same, Route → Handler → Service → Component, and you can follow it end to end without opening the docs of three libraries. Simplicity here isn't about doing less. **It's about removing what wasn't helping, so that what remains is easy to understand and hard to break.**
+
+Now that it's clear why simplifying pays off, let's look at the mental model that makes all of this possible.
 
 ## The inverted pyramid: HTML on the server
 
@@ -135,7 +145,11 @@ Clicking a tag follows the exact same idea, with a bonus `hx-push-url` so the UR
 
 ## Content as files, not a database
 
-There's one more decision the rewrite let go of: the database. For a blog, the content is the articles, and articles are text. So each post is a Markdown file in `content/posts/`, with a YAML frontmatter on top (including the very one you're reading).
+There's one more decision the rewrite let go of, at least for now: the database. And here's an honest note about the project's current state. I chose, on purpose, not to spin up any database yet. The idea was the simplest possible one: write each article in a Markdown file and keep it locally, versioned alongside the code.
+
+**One important point to highlight is that** this is a temporary choice, not a dogma. Down the road I plan to migrate all this content to a real database and build an admin dashboard, just to keep a reasonable grip on the data. But for the stage this blog is at today, a database would be more of a piece to maintain than a problem solved. So let's take the lighter path while it holds up.
+
+In practice, a blog's content is the articles, and articles are text. Each post becomes a Markdown file in `content/posts/`, with a YAML frontmatter on top (including the very one you're reading).
 
 The service reads the folder, splits the frontmatter from the body with a `SplitN` on `---`, and runs the Markdown through goldmark with GFM and syntax highlighting:
 
@@ -164,11 +178,11 @@ Rewriting this blog produced concrete gains over Next:
 - **End-to-end type safety.** The same compiler that validates the service validates the template.
 - **Simplicity that fits in your head.** Route → Handler → Service → Component. You can read the whole project in an afternoon.
 
-But I wouldn't be honest if I sold this as magic. The Go + HTMX ecosystem is smaller than React's. You'll find fewer ready-made components and fewer answers on Stack Overflow. And genuinely rich interactions (a text editor, a canvas, complex drag-and-drop) still call for real JavaScript; HTMX shines at swapping fragments, not at complex client state. The question was never "which one is better", but rather **what's the right weight for the right problem**.
+But I wouldn't be honest if I sold this as magic. The Go + HTMX ecosystem is smaller than React's. You'll find fewer ready-made components and fewer answers on Stack Overflow. And genuinely rich interactions (a text editor, a canvas, complex drag-and-drop) still call for real JavaScript. HTMX shines at swapping fragments, not at complex client state. There are good solutions to cover that reactivity gap, like Alpine.js, which sits well next to HTMX for the local state that lives in the browser. Even so, the question was never "which one is better", but rather **what's the right weight for the right problem**.
 
 ## Conclusion
 
-It was quite a journey going from an SPA to a server that returns ready HTML 🚀. We took a look at how Go handles routing on its own, how templ brings JSX ergonomics with type checking, and how HTMX delivers interactivity without dragging a whole framework along.
+It was quite a journey going from Next to a server that returns ready HTML 🚀. We took a look at how Go handles routing on its own, how templ brings JSX ergonomics with type checking, and how HTMX delivers interactivity without dragging a whole framework along.
 
 Let me be clear: this is not an anti-React manifesto. Next remains an excellent choice for real apps full of client-side state. The point is different. Before accepting the default, it's worth asking how much interactivity your project actually needs. In this blog's case, the answer was "almost none", and the stack came to reflect that.
 
