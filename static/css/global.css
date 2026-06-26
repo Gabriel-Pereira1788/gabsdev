@@ -101,6 +101,24 @@ button {
   cursor: pointer;
 }
 
+/* ---------- MOUSE TRAIL ---------- */
+svg.trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 8999;
+}
+
+svg.trail path {
+  fill: none;
+  stroke: #8B5CF6;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px #8B5CF6);
+}
+
 /* ---------- CRT / SCANLINE / DITHER OVERLAY ---------- */
 #crt-overlay {
   position: fixed;

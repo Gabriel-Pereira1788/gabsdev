@@ -1,0 +1,59 @@
+package components
+
+templ MouseTrail() {
+	<svg class="trail" aria-hidden="true"><path/></svg>
+	<script>
+	(function () {
+		var svg = document.querySelector('svg.trail');
+		var path = svg.querySelector('path');
+		var points = [];
+		var segments = 80;
+		var mouse = { x: 0, y: 0 };
+
+		document.addEventListener('mousemove', function (e) {
+			mouse.x = e.clientX;
+			mouse.y = e.clientY;
+
+			if (points.length === 0) {
+				for (var i = 0; i < segments; i++) {
+					points.push({ x: mouse.x, y: mouse.y });
+				}
+			}
+		});
+
+		function resize() {
+			var ww = window.innerWidth;
+			var wh = window.innerHeight;
+			svg.style.width = ww + 'px';
+			svg.style.height = wh + 'px';
+			svg.setAttribute('viewBox', '0 0 ' + ww + ' ' + wh);
+		}
+
+		function anim() {
+			if (points.length > 0) {
+				var px = mouse.x;
+				var py = mouse.y;
+
+				points.forEach(function (p, index) {
+					p.x = px;
+					p.y = py;
+
+					var n = points[index + 1];
+					if (n) {
+						px = px - (p.x - n.x) * 0.6;
+						py = py - (p.y - n.y) * 0.6;
+					}
+				});
+
+				path.setAttribute('d', 'M ' + points.map(function (p) { return p.x + ' ' + p.y; }).join(' L '));
+			}
+
+			requestAnimationFrame(anim);
+		}
+
+		window.addEventListener('resize', resize);
+		resize();
+		anim();
+	})();
+	</script>
+}

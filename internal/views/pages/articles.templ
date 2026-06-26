@@ -15,7 +15,7 @@ func getTagLabel(lang i18n.Lang, activeTag string) string {
 }
 
 templ ArticlesPage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post, tags []string, activeTag string) {
-	@layouts.Layout("Articles", i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath) {
+	@layouts.Layout("Articles", i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath, true) {
 		<div class="page enter">
 			<div class="min-list-head">
 				<span class="lbl">{ getTagLabel(lang, activeTag) }</span>

@@ -245,7 +245,7 @@ func HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.P
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Layout(i18n.T(lang, "home.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Layout(i18n.T(lang, "home.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath, true).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

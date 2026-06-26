@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-templ Layout(title string, description string, ogType string, lang i18n.Lang, pathname string, fullPath string) {
+templ Layout(title string, description string, ogType string, lang i18n.Lang, pathname string, fullPath string, showTrail bool) {
 	<!DOCTYPE html>
 	<html lang={ i18n.HTMLLang(lang) }>
 		<head>
@@ -70,6 +70,9 @@ templ Layout(title string, description string, ogType string, lang i18n.Lang, pa
 			<link rel="stylesheet" href="/static/css/global.css"/>
 		</head>
 		<body>
+			if showTrail {
+				@components.MouseTrail()
+			}
 			@components.CrtOverlay()
 			<div id="app">
 				<div class="term-window">

@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-func Layout(title string, description string, ogType string, lang i18n.Lang, pathname string, fullPath string) templ.Component {
+func Layout(title string, description string, ogType string, lang i18n.Lang, pathname string, fullPath string, showTrail bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -209,6 +209,12 @@ func Layout(title string, description string, ogType string, lang i18n.Lang, pat
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		if showTrail {
+			templ_7745c5c3_Err = components.MouseTrail().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
 		templ_7745c5c3_Err = components.CrtOverlay().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -232,7 +238,7 @@ func Layout(title string, description string, ogType string, lang i18n.Lang, pat
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(time.Now().Year())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 90, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layouts/layout.templ`, Line: 93, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
