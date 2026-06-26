@@ -1,11 +1,18 @@
 package components
 
 templ MouseTrail() {
-	<svg class="trail" aria-hidden="true"><path/></svg>
+	<svg class="trail" aria-hidden="true" style="position:fixed;top:0;left:0;pointer-events:none;z-index:8999;overflow:visible;"></svg>
 	<script>
 	(function () {
 		var svg = document.querySelector('svg.trail');
-		var path = svg.querySelector('path');
+		var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+		path.setAttribute('fill', 'none');
+		path.setAttribute('stroke', '#8B5CF6');
+		path.setAttribute('stroke-width', '4');
+		path.setAttribute('stroke-linecap', 'round');
+		path.setAttribute('stroke-linejoin', 'round');
+		path.style.filter = 'drop-shadow(0 0 4px #8B5CF6)';
+		svg.appendChild(path);
 		var points = [];
 		var segments = 80;
 		var mouse = { x: 0, y: 0 };
