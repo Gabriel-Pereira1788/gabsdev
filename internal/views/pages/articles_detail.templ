@@ -44,14 +44,6 @@ templ ArticlesDetailPage(
 				<div class="prose">
 					@templ.Raw(renderedContent)
 				</div>
-				if len(toc) > 0 {
-					<nav class="toc">
-						<div class="toc-title">{ i18n.T(lang, "article.toc_label") }</div>
-						for _, item := range toc {
-							<a href={ templ.SafeURL("#" + item.ID) } data-toc={ item.ID } class="toc-link">{ item.Title }</a>
-						}
-					</nav>
-				}
 			</div>
 
 			<div class="article-end">

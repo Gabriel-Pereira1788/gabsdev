@@ -596,18 +596,7 @@ svg.trail path {
 }
 
 .article-layout {
-  display: grid;
-  grid-template-columns: 1fr 200px;
-  gap: 40px;
-  align-items: start;
-}
-@media (max-width: 860px) {
-  .article-layout {
-    grid-template-columns: 1fr;
-  }
-  .toc {
-    display: none;
-  }
+  display: block;
 }
 .toc {
   position: sticky;
