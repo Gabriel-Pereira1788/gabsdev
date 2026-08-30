@@ -108,6 +108,12 @@ func IconSVG(name string) string {
 			`<rect x="3" y="11" width="10" height="2"/>` +
 			`<rect x="5" y="13" width="6" height="1"/>` +
 			`<rect x="6" y="14" width="4" height="1"/>`
+	case "linkedin":
+		return `<rect x="2" y="2" width="3" height="3"/>` +
+			`<rect x="2" y="6" width="3" height="8"/>` +
+			`<rect x="7" y="6" width="3" height="8"/>` +
+			`<rect x="7" y="6" width="7" height="3"/>` +
+			`<rect x="11" y="6" width="3" height="8"/>`
 	}
 	return ""
 }
