@@ -1,0 +1,53 @@
+package components
+
+import (
+	"strconv"
+
+	"gabsdev-go/internal/domain"
+	"gabsdev-go/internal/i18n"
+	"gabsdev-go/internal/utils"
+)
+
+templ GitHubActivity(lang i18n.Lang, activity domain.GitHubActivity) {
+	<div class="gh-section">
+		<div class="min-list-head">
+			<span class="lbl">{ i18n.T(lang, "home.gh_label") }</span>
+			<a href="https://github.com/Gabriel-Pereira1788" target="_blank" rel="noopener" class="all">{ i18n.T(lang, "home.gh_profile") }</a>
+		</div>
+		if len(activity.Weeks) == 0 && len(activity.Commits) == 0 {
+			<p class="gh-empty">{ i18n.T(lang, "home.gh_empty") }</p>
+		} else {
+			<div class="gh-body">
+				if len(activity.Weeks) > 0 {
+					<div class="gh-heatmap-wrap">
+						<div class="gh-heatmap">
+							for _, week := range activity.Weeks {
+								<div class="gh-week">
+									for _, day := range week.Days {
+										<span class={ "gh-day", "lvl-" + strconv.Itoa(day.Level) } title={ day.Date + " · " + strconv.Itoa(day.Count) }></span>
+									}
+								</div>
+							}
+						</div>
+						<p class="gh-total">
+							<span class="k">{ strconv.Itoa(activity.TotalContributions) }</span> { i18n.T(lang, "home.gh_contributions") }
+						</p>
+					</div>
+				}
+				if len(activity.Commits) > 0 {
+					<div class="gh-commits">
+						<span class="gh-commits-label">{ i18n.T(lang, "home.gh_commits_label") }</span>
+						for _, c := range activity.Commits {
+							<a href={ templ.SafeURL(c.RepoURL) } target="_blank" rel="noopener" class="gh-row">
+								<span class={ "gh-dot", "lang-" + c.LangClass }></span>
+								<span class="gh-repo">{ c.Repo }</span>
+								<p class="gh-msg">{ c.Message }</p>
+								<span class="gh-time">{ utils.RelativeTime(c.Timestamp, lang) }</span>
+							</a>
+						}
+					</div>
+				}
+			</div>
+		}
+	</div>
+}

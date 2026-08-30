@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"gabsdev-go/internal/i18n"
+	githubsvc "gabsdev-go/internal/services/github"
 	services "gabsdev-go/internal/services/posts"
 	"gabsdev-go/internal/views/pages"
 )
@@ -26,7 +27,8 @@ func Home(lang i18n.Lang) http.HandlerFunc {
 		}
 
 		posts := services.GetPosts(lang)
+		activity := githubsvc.GetActivity()
 
-		pages.HomePage(lang, r.URL.Path, r.URL.RequestURI(), posts).Render(r.Context(), w)
+		pages.HomePage(lang, r.URL.Path, r.URL.RequestURI(), posts, activity).Render(r.Context(), w)
 	}
 }

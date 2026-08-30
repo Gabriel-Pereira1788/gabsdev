@@ -1342,6 +1342,181 @@ svg.trail path {
   line-height: 1.7;
 }
 
+/* ---------- GITHUB ACTIVITY ---------- */
+.gh-section {
+  padding: 40px 36px 48px;
+  max-width: var(--content-w);
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  border-top: 1px solid var(--border);
+}
+.gh-empty {
+  padding: 24px 0;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.gh-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding-top: 20px;
+}
+@media (max-width: 720px) {
+  .gh-body {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.gh-heatmap-wrap {
+  overflow-x: auto;
+}
+.gh-heatmap {
+  display: flex;
+  gap: 3px;
+}
+.gh-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.gh-day {
+  width: 10px;
+  height: 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+}
+.gh-day.lvl-1 {
+  background: var(--border-strong);
+}
+.gh-day.lvl-2 {
+  background: var(--text-3);
+}
+.gh-day.lvl-3 {
+  background: var(--text-1);
+}
+.gh-day.lvl-4 {
+  background: var(--text-0);
+}
+.gh-total {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.gh-total .k {
+  color: var(--text-0);
+  font-family: var(--pixel-font);
+}
+.gh-commits {
+  border-top: 1px solid var(--border);
+}
+.gh-commits-label {
+  display: block;
+  padding: 10px 0;
+  font-family: var(--pixel-font);
+  font-size: 10px;
+  color: var(--text-2);
+  letter-spacing: 1px;
+}
+.gh-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  text-decoration: none;
+}
+.gh-row:hover .gh-msg {
+  color: var(--text-0);
+}
+.gh-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  align-self: center;
+  background: var(--border-strong);
+}
+.gh-dot.lang-go {
+  background: #00add8;
+}
+.gh-dot.lang-ts {
+  background: #3178c6;
+}
+.gh-dot.lang-js {
+  background: #f1e05a;
+}
+.gh-dot.lang-swift {
+  background: #f05138;
+}
+.gh-dot.lang-kotlin {
+  background: #a97bff;
+}
+.gh-dot.lang-py {
+  background: #3572a5;
+}
+.gh-dot.lang-html {
+  background: #e34c26;
+}
+.gh-dot.lang-css {
+  background: #563d7c;
+}
+.gh-dot.lang-shell {
+  background: #89e051;
+}
+.gh-dot.lang-dart {
+  background: #00b4ab;
+}
+.gh-dot.lang-java {
+  background: #b07219;
+}
+.gh-dot.lang-cpp {
+  background: #f34b7d;
+}
+.gh-dot.lang-ruby {
+  background: #701516;
+}
+.gh-repo {
+  font-size: 13px;
+  color: var(--text-1);
+  white-space: nowrap;
+}
+.gh-msg {
+  font-size: 13px;
+  color: var(--text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.gh-time {
+  font-size: 11px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .gh-row {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "dot repo"
+      "msg msg"
+      "time time";
+  }
+  .gh-dot {
+    grid-area: dot;
+  }
+  .gh-repo {
+    grid-area: repo;
+  }
+  .gh-msg {
+    grid-area: msg;
+    white-space: normal;
+  }
+  .gh-time {
+    grid-area: time;
+  }
+}
+
 /* ---------- HOME ABOUT (full) ---------- */
 .home-about-full {
   padding: 48px 36px 56px;

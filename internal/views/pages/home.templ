@@ -11,7 +11,7 @@ import (
 
 const placeholderIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%232a2a2a'/%3E%3Ctext x='12' y='17' font-size='14' text-anchor='middle' fill='%23888' font-family='monospace'%3E%3F%3C/text%3E%3C/svg%3E"
 
-templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post) {
+templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post, activity domain.GitHubActivity) {
 	@layouts.Layout(i18n.T(lang, "home.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath, true) {
 		<div class="enter">
 			<div class="home-min">
@@ -52,6 +52,8 @@ templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.
 					</div>
 				</div>
 			</div>
+
+			@components.GitHubActivity(lang, activity)
 
 			<div class="min-list-wrap">
 				<div class="min-list-head">
