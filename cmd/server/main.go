@@ -4,8 +4,10 @@ import (
 	"log"
 	"net/http"
 
+	"gabsdev-go/internal/config"
 	"gabsdev-go/internal/handlers"
 	"gabsdev-go/internal/i18n"
+	githubsvc "gabsdev-go/internal/services/github"
 )
 
 func registerRoutes(mux *http.ServeMux, lang i18n.Lang, prefix string) {
@@ -18,6 +20,9 @@ func registerRoutes(mux *http.ServeMux, lang i18n.Lang, prefix string) {
 }
 
 func main() {
+	config.LoadDotEnv(".env")
+	githubsvc.WarmCache()
+
 	mux := http.NewServeMux()
 
 	registerRoutes(mux, i18n.LangPT, "")

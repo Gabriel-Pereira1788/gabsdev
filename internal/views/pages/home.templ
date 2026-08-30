@@ -1,38 +1,60 @@
 package pages
 
 import (
+	"encoding/json"
 	"gabsdev-go/internal/domain"
 	"gabsdev-go/internal/i18n"
 	"gabsdev-go/internal/utils"
 	"gabsdev-go/internal/views/components"
 	"gabsdev-go/internal/views/layouts"
-	"strconv"
 )
 
-const siteSince = 2021
+const placeholderIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%232a2a2a'/%3E%3Ctext x='12' y='17' font-size='14' text-anchor='middle' fill='%23888' font-family='monospace'%3E%3F%3C/text%3E%3C/svg%3E"
 
-templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post, tags []string) {
+templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post, activity domain.GitHubActivity) {
 	@layouts.Layout(i18n.T(lang, "home.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath, true) {
 		<div class="enter">
 			<div class="home-min">
 				<div class="obsidian-stage">
 					@components.AsciiGabsdev()
 				</div>
-				<p class="min-tag">{ i18n.T(lang, "site.tagline") }</p>
-				<div class="min-meta">
-					<span>
-						<span class="k">{ strconv.Itoa(len(posts)) }</span> { i18n.T(lang, "home.articles") }
-					</span>
-					<span class="dot">.</span>
-					<span>
-						<span class="k">{ strconv.Itoa(len(tags)) }</span> { i18n.T(lang, "home.tags") }
-					</span>
-					<span class="dot">.</span>
-					<span>
-						{ i18n.T(lang, "home.since") } <span class="k">{ strconv.Itoa(siteSince) }</span>
-					</span>
+				<div class="hero-grid">
+					<div class="hero-copy">
+						<p class="hero-kicker">{ i18n.T(lang, "home.kicker") }</p>
+						<h1 class="home-headline">{ i18n.T(lang, "home.headline") }</h1>
+						<p class="min-tag">{ i18n.T(lang, "home.subheadline") }</p>
+						<div class="hero-cta">
+							<a href="#contact" class="hero-btn hero-btn-primary">{ i18n.T(lang, "home.cta_secondary") }</a>
+						</div>
+					</div>
+					<div class="hero-phone">
+						@components.AppSimulator(lang, appsJSON(portfolioApps(lang)))
+					</div>
 				</div>
 			</div>
+
+			<div class="stack-section">
+				<div class="min-list-head" style="margin-bottom:8px;">
+					<span class="lbl">{ i18n.T(lang, "home.stack_label") }</span>
+				</div>
+				<div class="stack-rows">
+					<div class="stack-row">
+						<div class="stack-group">{ i18n.T(lang, "home.stack.languages") }</div>
+						<div class="stack-items">TypeScript, Swift, Kotlin, Python, Go</div>
+					</div>
+					<div class="stack-row">
+						<div class="stack-group">{ i18n.T(lang, "home.stack.mobile") }</div>
+						<div class="stack-items">React Native, Nitro Modules</div>
+					</div>
+					<div class="stack-row">
+						<div class="stack-group">{ i18n.T(lang, "home.stack.backend") }</div>
+						<div class="stack-items">templ, HTMX, LangGraph, { i18n.T(lang, "home.stack.rag") }, { i18n.T(lang, "home.stack.tooling_extra") }</div>
+					</div>
+				</div>
+			</div>
+
+			@components.GitHubActivity(lang, activity)
+
 			<div class="min-list-wrap">
 				<div class="min-list-head">
 					<span class="lbl">{ i18n.T(lang, "home.recent") }</span>
@@ -48,6 +70,50 @@ templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.
 					}
 				</div>
 			</div>
+
+			<div class="home-contact" id="contact">
+				<div class="min-list-head" style="margin-bottom:20px;">
+					<span class="lbl">{ i18n.T(lang, "home.contact_label") }</span>
+				</div>
+				<p class="contact-line">{ i18n.T(lang, "home.contact_line") }</p>
+				<div class="contact-links">
+					<a href="https://github.com/Gabriel-Pereira1788" target="_blank" rel="noopener" class="hero-btn">
+						@components.PixelIcon("github", 14)
+						github
+					</a>
+					<a href="https://www.linkedin.com/in/gabriel-andrade1788/" target="_blank" rel="noopener" class="hero-btn">
+						@components.PixelIcon("linkedin", 14)
+						linkedin
+					</a>
+				</div>
+			</div>
+
+			<div class="home-about-full">
+				<div class="min-list-head" style="margin-bottom:28px;">
+					<span class="lbl">{ i18n.T(lang, "about.title_label") }</span>
+				</div>
+				<div class="about-grid">
+					<img
+						src="/static/images/pixel-avatar.png"
+						alt="Gabriel Pereira"
+						width="160"
+						height="160"
+						class="avatar"
+					/>
+					<div>
+						<p style="font-size:15px;color:var(--text-1);line-height:1.8;margin-bottom:16px;">
+							{ i18n.T(lang, "about.bio1") }
+						</p>
+						<p style="font-size:15px;color:var(--text-1);line-height:1.8;margin-bottom:16px;">
+							{ i18n.T(lang, "about.bio2") }
+						</p>
+						<p style="font-size:13px;color:var(--text-2);margin-bottom:20px;">
+							<span style="color:var(--text-2);">{ i18n.T(lang, "about.stat.stack") }</span>: React Native, TypeScript, Swift, Kotlin, Python
+						</p>
+						<a href={ templ.SafeURL(i18n.Path(lang, "/about")) } style="font-size:12px;color:var(--text-2);">{ i18n.T(lang, "home.about_cta") } →</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	}
 }
@@ -57,4 +123,98 @@ func recentPosts(posts []domain.Post) []domain.Post {
 		return posts
 	}
 	return posts[:5]
+}
+
+func portfolioApps(lang i18n.Lang) []components.AppCase {
+	return []components.AppCase{
+		{
+			Key:     "mynu",
+			Name:    "Mynu",
+			Domain:  i18n.T(lang, "home.mynu.category"),
+			Year:    "2026",
+			Icon:    "/static/images/projects/mynu-icon.jpg",
+			Problem: i18n.T(lang, "home.mynu.problem"),
+			Build:   i18n.T(lang, "home.mynu.build"),
+			Impact:  i18n.T(lang, "home.mynu.impact"),
+			Stores: []components.AppStore{
+				{
+					Label: i18n.T(lang, "home.mynu.cta_appstore"),
+					URL:   "https://apps.apple.com/us/app/mynu-nutrition-assistant/id6757311727",
+				},
+				{
+					Label: i18n.T(lang, "home.cta_googleplay"),
+					URL:   "https://play.google.com/store/apps/details?id=com.bytebuilder123.MynuAssistant",
+				},
+			},
+		},
+		{
+			Key:     "pomodoo",
+			Name:    "Pomodoo",
+			Domain:  i18n.T(lang, "home.pomodoo.category"),
+			Year:    "2025",
+			Icon:    "/static/images/projects/pomodoo-icon.png",
+			Problem: i18n.T(lang, "home.pomodoo.problem"),
+			Build:   i18n.T(lang, "home.pomodoo.build"),
+			Impact:  i18n.T(lang, "home.pomodoo.impact"),
+			Stores: []components.AppStore{
+				{
+					Label: i18n.T(lang, "home.mynu.cta_appstore"),
+					URL:   "https://apps.apple.com/us/app/pomodoo/id6741800638?mt=12",
+				},
+			},
+		},
+		{
+			Key:     "ploomes",
+			Name:    "Ploomes",
+			Domain:  i18n.T(lang, "home.ploomes.category"),
+			Year:    "2023–",
+			Icon:    "/static/images/projects/ploomes-icon.jpg",
+			Problem: i18n.T(lang, "home.ploomes.problem"),
+			Build:   i18n.T(lang, "home.ploomes.build"),
+			Impact:  i18n.T(lang, "home.ploomes.impact"),
+			Stores: []components.AppStore{
+				{
+					Label: i18n.T(lang, "home.mynu.cta_appstore"),
+					URL:   "https://apps.apple.com/br/app/ploomes/id1405137541",
+				},
+				{
+					Label: i18n.T(lang, "home.cta_googleplay"),
+					URL:   "https://play.google.com/store/apps/details?id=com.ploomes.mobileapp",
+				},
+			},
+		},
+		{
+			Key:     "playfast",
+			Name:    "Play Fast",
+			Domain:  i18n.T(lang, "home.playfast.category"),
+			Year:    "2023",
+			Icon:    "/static/images/projects/playfast-icon.jpg",
+			Problem: i18n.T(lang, "home.playfast.problem"),
+			Build:   i18n.T(lang, "home.playfast.build"),
+			Impact:  i18n.T(lang, "home.playfast.impact"),
+			Stores: []components.AppStore{
+				{
+					Label: i18n.T(lang, "home.mynu.cta_appstore"),
+					URL:   "https://apps.apple.com/br/app/play-fast/id6446857218",
+				},
+				{
+					Label: i18n.T(lang, "home.cta_googleplay"),
+					URL:   "https://play.google.com/store/apps/details?id=com.carlos334lima.playfast",
+				},
+			},
+		},
+	}
+}
+
+func appsJSON(apps []components.AppCase) string {
+	for i := range apps {
+		if apps[i].Stores == nil {
+			apps[i].Stores = []components.AppStore{}
+		}
+	}
+	b, err := json.Marshal(apps)
+	if err != nil {
+		return "[]"
+	}
+	return string(b)
 }
