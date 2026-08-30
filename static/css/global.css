@@ -100,6 +100,9 @@ button {
   font-family: inherit;
   cursor: pointer;
 }
+[x-cloak] {
+  display: none !important;
+}
 
 /* ---------- MOUSE TRAIL ---------- */
 svg.trail {
@@ -870,21 +873,18 @@ svg.trail path {
 
 /* ---------- MINIMAL HOME ---------- */
 .home-min {
-  min-height: 60vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
-  padding: 72px 36px 56px;
-  /*border-bottom: 1px solid var(--border);*/
+  padding: 40px 36px 48px;
 }
 .home-min .obsidian-stage {
-  height: 280px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  margin-bottom: 8px;
 }
 .home-min .wordmark {
   font-family: var(--pixel-font);
@@ -902,20 +902,6 @@ svg.trail path {
   max-width: 550px;
   margin: 0 auto 22px;
   text-wrap: pretty;
-}
-.home-min .min-meta {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  justify-content: center;
-  font-size: 12px;
-  color: var(--text-2);
-}
-.home-min .min-meta .k {
-  color: var(--text-0);
-}
-.home-min .min-meta .dot {
-  color: var(--text-3);
 }
 
 /* minimal list */
@@ -1009,6 +995,364 @@ svg.trail path {
   .min-row .min-date {
     grid-column: 1;
   }
+}
+
+/* ---------- HERO ---------- */
+.hero-kicker {
+  font-family: var(--pixel-font);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-2);
+  margin: 0 0 14px;
+}
+.home-min .home-headline {
+  font-family: var(--pixel-font);
+  color: var(--text-0);
+  font-size: clamp(15px, 2.2vw, 21px);
+  line-height: 1.6;
+  margin: 0 0 12px;
+  max-width: 560px;
+  text-wrap: pretty;
+}
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0 4px;
+}
+.hero-btn {
+  font-family: var(--body-font);
+  font-size: 12px;
+  padding: 10px 18px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    background 0.1s steps(2),
+    color 0.1s steps(2),
+    border-color 0.1s steps(2);
+}
+.hero-btn:hover {
+  color: var(--text-0);
+  border-color: var(--text-0);
+  background: var(--surface-1);
+}
+.hero-btn-primary {
+  background: var(--text-0);
+  color: var(--bg-0);
+  border-color: var(--text-0);
+}
+.hero-btn-primary:hover {
+  background: transparent;
+  color: var(--text-0);
+}
+
+/* ---------- HOME CONTACT ---------- */
+.home-contact {
+  padding: 48px 36px 56px;
+  max-width: var(--content-w);
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.home-contact .contact-line {
+  font-size: 15px;
+  color: var(--text-1);
+  max-width: 480px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+}
+.contact-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ---------- HERO GRID (copy + phone) ---------- */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 48px;
+  align-items: start;
+  align-self: stretch;
+  max-width: var(--content-w);
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+.hero-copy .min-tag {
+  margin: 0 0 22px;
+}
+.hero-copy .hero-cta {
+  justify-content: flex-start;
+}
+.hero-phone {
+  text-align: center;
+}
+@media (max-width: 860px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-copy {
+    text-align: center;
+  }
+  .hero-copy .min-tag {
+    margin: 0 auto 22px;
+  }
+  .hero-copy .hero-cta {
+    justify-content: center;
+  }
+}
+.app-sim-hint {
+  font-size: 12px;
+  color: var(--text-2);
+  margin: 0 0 24px;
+}
+.phone-sim {
+  position: relative;
+  width: 270px;
+  height: 560px;
+  margin: 0 auto 28px;
+  border: 4px solid var(--border-strong);
+  background: var(--bg-1);
+  padding: 10px 12px 0;
+  box-sizing: border-box;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 7px 7px 0 var(--text-0);
+}
+/* volume rocker */
+.phone-sim::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 64px;
+  width: 4px;
+  height: 36px;
+  background: var(--border-strong);
+}
+/* power button */
+.phone-sim::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: 90px;
+  width: 4px;
+  height: 54px;
+  background: var(--border-strong);
+}
+.sim-notch {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto 6px;
+}
+.sim-notch .cam {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+.sim-notch .bar {
+  width: 34%;
+  height: 12px;
+  background: var(--border-strong);
+}
+.sim-status {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: var(--body-font);
+  font-size: 10px;
+  color: var(--text-2);
+  padding: 0 2px 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.sim-battery {
+  display: inline-block;
+  position: relative;
+  width: 16px;
+  height: 8px;
+  border: 1px solid var(--text-2);
+  vertical-align: middle;
+}
+.sim-battery::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: -3px;
+  width: 2px;
+  height: 4px;
+  background: var(--text-2);
+}
+.sim-battery .fill {
+  position: absolute;
+  inset: 1px;
+  right: 3px;
+  background: var(--text-2);
+}
+.sim-home-indicator {
+  flex: none;
+  width: 36%;
+  height: 4px;
+  background: var(--border-strong);
+  margin: 10px auto 10px;
+}
+.sim-screen {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 4px;
+}
+.sim-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px 8px;
+}
+.sim-app-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--body-font);
+}
+.sim-app-icon {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border);
+  image-rendering: pixelated;
+}
+.sim-app-name {
+  font-size: 10px;
+  color: var(--text-1);
+  text-align: center;
+}
+.sim-back {
+  display: block;
+  font-family: var(--body-font);
+  font-size: 12px;
+  color: var(--text-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0 16px;
+}
+.sim-back:hover {
+  color: var(--text-0);
+}
+.sim-detail-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.sim-detail-icon {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border);
+  image-rendering: pixelated;
+}
+.sim-detail-name {
+  font-family: var(--pixel-font);
+  font-size: 13px;
+  color: var(--text-0);
+  margin: 0 0 4px;
+}
+.sim-detail-meta {
+  font-size: 11px;
+  color: var(--text-2);
+  margin: 0;
+}
+.sim-block {
+  margin-bottom: 14px;
+}
+.sim-block .lbl {
+  font-family: var(--pixel-font);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--text-2);
+  margin: 0 0 6px;
+  display: block;
+}
+.sim-block p {
+  font-size: 12.5px;
+  color: var(--text-1);
+  line-height: 1.6;
+  margin: 0;
+}
+.sim-stores {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+/* ---------- STACK ---------- */
+.stack-section {
+  padding: 40px 36px 48px;
+  max-width: var(--content-w);
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  border-top: 1px solid var(--border);
+}
+.stack-rows {
+  border-top: 1px solid var(--border);
+}
+.stack-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+@media (max-width: 560px) {
+  .stack-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+.stack-group {
+  font-size: 12px;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.stack-items {
+  font-size: 13px;
+  color: var(--text-1);
+  line-height: 1.7;
+}
+
+/* ---------- HOME ABOUT (full) ---------- */
+.home-about-full {
+  padding: 48px 36px 56px;
+  max-width: var(--content-w);
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  border-top: 1px solid var(--border);
+}
+.home-about-full a:hover {
+  color: var(--text-0);
 }
 
 /* entrance animation */

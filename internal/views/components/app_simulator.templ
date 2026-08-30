@@ -1,0 +1,77 @@
+package components
+
+import "gabsdev-go/internal/i18n"
+
+type AppStore struct {
+	Label string `json:"label"`
+	URL   string `json:"url"`
+}
+
+type AppCase struct {
+	Key     string     `json:"key"`
+	Name    string     `json:"name"`
+	Domain  string     `json:"domain"`
+	Year    string     `json:"year"`
+	Icon    string     `json:"icon"`
+	Problem string     `json:"problem"`
+	Build   string     `json:"build"`
+	Impact  string     `json:"impact"`
+	Stores  []AppStore `json:"stores"`
+}
+
+templ AppSimulator(lang i18n.Lang, appsJSON string) {
+	<p class="app-sim-hint">{ i18n.T(lang, "home.sim_hint") }</p>
+	<div class="phone-sim" x-data={ "{ apps: " + appsJSON + ", selected: null }" }>
+			<div class="sim-notch"><span class="cam"></span><span class="bar"></span></div>
+			<div class="sim-status">
+				<span>9:41</span>
+				<span class="sim-battery"><span class="fill"></span></span>
+			</div>
+			<div class="sim-screen">
+				<div x-show="!selected">
+					<div class="sim-grid">
+						<template x-for="app in apps" x-bind:key="app.key">
+							<button type="button" class="sim-app-btn" x-on:click="selected = app">
+								<img x-bind:src="app.icon" x-bind:alt="app.name" class="sim-app-icon"/>
+								<span class="sim-app-name" x-text="app.name"></span>
+							</button>
+						</template>
+					</div>
+				</div>
+				<div x-show="selected" x-cloak>
+					<template x-if="selected">
+						<div>
+							<button type="button" class="sim-back" x-on:click="selected = null">‹ { i18n.T(lang, "home.sim_back") }</button>
+							<div class="sim-detail-head">
+								<img x-bind:src="selected.icon" x-bind:alt="selected.name" class="sim-detail-icon"/>
+								<div>
+									<p class="sim-detail-name" x-text="selected.name"></p>
+									<p class="sim-detail-meta">
+										<span x-text="selected.domain"></span> · <span x-text="selected.year"></span>
+									</p>
+								</div>
+							</div>
+							<div class="sim-block" x-show="selected.problem">
+								<span class="lbl">{ i18n.T(lang, "home.sim_problem") }</span>
+								<p x-text="selected.problem"></p>
+							</div>
+							<div class="sim-block" x-show="selected.build">
+								<span class="lbl">{ i18n.T(lang, "home.sim_build") }</span>
+								<p x-text="selected.build"></p>
+							</div>
+							<div class="sim-block" x-show="selected.impact">
+								<span class="lbl">{ i18n.T(lang, "home.sim_impact") }</span>
+								<p x-text="selected.impact"></p>
+							</div>
+							<div class="sim-stores">
+								<template x-for="s in selected.stores" x-bind:key="s.url">
+									<a x-bind:href="s.url" target="_blank" rel="noopener" class="hero-btn" x-text="s.label"></a>
+								</template>
+							</div>
+						</div>
+					</template>
+				</div>
+		</div>
+		<div class="sim-home-indicator"></div>
+	</div>
+}

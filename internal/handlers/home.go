@@ -26,8 +26,7 @@ func Home(lang i18n.Lang) http.HandlerFunc {
 		}
 
 		posts := services.GetPosts(lang)
-		tags := services.GetUniqueTags(lang)
 
-		pages.HomePage(lang, r.URL.Path, r.URL.RequestURI(), posts, tags).Render(r.Context(), w)
+		pages.HomePage(lang, r.URL.Path, r.URL.RequestURI(), posts).Render(r.Context(), w)
 	}
 }
