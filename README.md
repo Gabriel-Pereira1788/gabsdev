@@ -44,12 +44,15 @@ gabsdev-go/
 **Requirements:** Go 1.25+, [templ CLI](https://templ.guide/quick-start/installation), [air](https://github.com/air-verse/air)
 
 ```bash
-# Development with live reload
-air
-
-# Or build and run directly
-templ generate && go run ./cmd/server/main.go
+make dev      # live reload (air)
+make run      # generate + run once, no reload
+make build    # compile binary to ./bin/server
+make generate # regenerate *_templ.go from .templ sources
+make fmt      # templ fmt + gofmt
+make test     # go test ./...
 ```
+
+Without `make`: `air`, or `templ generate && go run ./cmd/server/main.go`.
 
 Server starts at `http://localhost:8080`.
 
