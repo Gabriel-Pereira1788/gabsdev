@@ -12,7 +12,7 @@ import (
 const placeholderIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%232a2a2a'/%3E%3Ctext x='12' y='17' font-size='14' text-anchor='middle' fill='%23888' font-family='monospace'%3E%3F%3C/text%3E%3C/svg%3E"
 
 templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.Post, activity domain.GitHubActivity) {
-	@layouts.Layout(i18n.T(lang, "home.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath, true) {
+	@layouts.Layout(i18n.T(lang, "home.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath, true, "", "", "") {
 		<div class="enter">
 			<div class="home-min">
 				<div class="obsidian-stage">
@@ -32,7 +32,6 @@ templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.
 					</div>
 				</div>
 			</div>
-
 			<div class="stack-section">
 				<div class="min-list-head" style="margin-bottom:8px;">
 					<span class="lbl">{ i18n.T(lang, "home.stack_label") }</span>
@@ -52,9 +51,7 @@ templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.
 					</div>
 				</div>
 			</div>
-
 			@components.GitHubActivity(lang, activity)
-
 			<div class="min-list-wrap">
 				<div class="min-list-head">
 					<span class="lbl">{ i18n.T(lang, "home.recent") }</span>
@@ -70,7 +67,6 @@ templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.
 					}
 				</div>
 			</div>
-
 			<div class="home-contact" id="contact">
 				<div class="min-list-head" style="margin-bottom:20px;">
 					<span class="lbl">{ i18n.T(lang, "home.contact_label") }</span>
@@ -87,7 +83,6 @@ templ HomePage(lang i18n.Lang, pathname string, fullPath string, posts []domain.
 					</a>
 				</div>
 			</div>
-
 			<div class="home-about-full">
 				<div class="min-list-head" style="margin-bottom:28px;">
 					<span class="lbl">{ i18n.T(lang, "about.title_label") }</span>

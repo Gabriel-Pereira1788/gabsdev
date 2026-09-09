@@ -3,6 +3,7 @@ package pages
 import (
 	"gabsdev-go/internal/domain"
 	"gabsdev-go/internal/i18n"
+	"gabsdev-go/internal/services/banner"
 	"gabsdev-go/internal/utils"
 	"gabsdev-go/internal/views/layouts"
 	"strconv"
@@ -18,9 +19,8 @@ templ ArticlesDetailPage(
 	prev *domain.Post,
 	next *domain.Post,
 ) {
-	@layouts.Layout(post.Title, post.Excerpt, "article", lang, pathname, fullPath, false) {
+	@layouts.Layout(post.Title, post.Excerpt, "article", lang, pathname, fullPath, false, banner.URLPath(lang, post.Slug), "1200", "630") {
 		<div class="page enter">
-
 			<div class="article-head">
 				<nav class="breadcrumb">
 					<a href={ templ.SafeURL(i18n.Path(lang, "/articles")) }>{ i18n.T(lang, "articles.breadcrumb") }</a>
@@ -39,13 +39,11 @@ templ ArticlesDetailPage(
 					</div>
 				</div>
 			</div>
-
 			<div class="article-layout">
 				<div class="prose">
 					@templ.Raw(renderedContent)
 				</div>
 			</div>
-
 			<div class="article-end">
 				if prev != nil {
 					<a class="end-link" href={ templ.SafeURL(i18n.Path(lang, "/articles/"+prev.Slug)) }>
@@ -60,7 +58,6 @@ templ ArticlesDetailPage(
 					</a>
 				}
 			</div>
-
 		</div>
 		<script>
 			(function() {
