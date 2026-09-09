@@ -8,13 +8,11 @@ import (
 )
 
 templ AboutPage(lang i18n.Lang, pathname string, fullPath string, postsCount int) {
-	@layouts.Layout(i18n.T(lang, "about.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath, true) {
+	@layouts.Layout(i18n.T(lang, "about.page_title"), i18n.T(lang, "meta.description"), "website", lang, pathname, fullPath, true, "", "", "") {
 		<div class="page enter">
-
 			<div class="min-list-head" style="margin-bottom:32px;border-bottom:none;">
 				<span class="lbl">{ i18n.T(lang, "about.title_label") }</span>
 			</div>
-
 			<div class="about-grid">
 				<div>
 					<img
@@ -26,7 +24,6 @@ templ AboutPage(lang i18n.Lang, pathname string, fullPath string, postsCount int
 					/>
 					<p style="font-size:13px;color:var(--text-2);margin-top:12px;">{ "@gabsdev" }</p>
 				</div>
-
 				<div>
 					<p style="font-size:15px;color:var(--text-1);line-height:1.8;margin-bottom:20px;">
 						{ i18n.T(lang, "about.bio1") }
@@ -34,7 +31,6 @@ templ AboutPage(lang i18n.Lang, pathname string, fullPath string, postsCount int
 					<p style="font-size:15px;color:var(--text-1);line-height:1.8;margin-bottom:20px;">
 						{ i18n.T(lang, "about.bio2") }
 					</p>
-
 					<div class="about-stats">
 						<div class="stat-row">
 							<span class="k">{ i18n.T(lang, "about.stat.stack") }</span>
@@ -53,7 +49,6 @@ templ AboutPage(lang i18n.Lang, pathname string, fullPath string, postsCount int
 							<span class="v">2021</span>
 						</div>
 					</div>
-
 					<div style="display:flex;gap:18px;margin-top:24px;">
 						<a
 							href="https://github.com/Gabriel-Pereira1788"
@@ -74,7 +69,6 @@ templ AboutPage(lang i18n.Lang, pathname string, fullPath string, postsCount int
 					</div>
 				</div>
 			</div>
-
 		</div>
 	}
 }

@@ -5,9 +5,12 @@ import (
 	"net/http"
 
 	"gabsdev-go/internal/config"
+	"gabsdev-go/internal/domain"
 	"gabsdev-go/internal/handlers"
 	"gabsdev-go/internal/i18n"
+	"gabsdev-go/internal/services/banner"
 	githubsvc "gabsdev-go/internal/services/github"
+	postsvc "gabsdev-go/internal/services/posts"
 )
 
 func registerRoutes(mux *http.ServeMux, lang i18n.Lang, prefix string) {
@@ -22,6 +25,14 @@ func registerRoutes(mux *http.ServeMux, lang i18n.Lang, prefix string) {
 func main() {
 	config.LoadDotEnv(".env")
 	githubsvc.WarmCache()
+
+	postsByLang := map[i18n.Lang][]domain.Post{
+		i18n.LangPT: postsvc.GetPosts(i18n.LangPT),
+		i18n.LangEN: postsvc.GetPosts(i18n.LangEN),
+	}
+	if err := banner.GenerateAll(postsByLang); err != nil {
+		log.Fatalf("banner generation failed: %v", err)
+	}
 
 	mux := http.NewServeMux()
 

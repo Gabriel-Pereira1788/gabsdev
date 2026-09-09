@@ -31,4 +31,7 @@ tmp/
 .env
 .env.*
 !.env.example
+
+# Generated per-article OG banners (rebuilt at server startup)
+static/images/banners/
 articles-example.md

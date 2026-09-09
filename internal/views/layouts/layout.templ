@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-templ Layout(title string, description string, ogType string, lang i18n.Lang, pathname string, fullPath string, showTrail bool) {
+templ Layout(title string, description string, ogType string, lang i18n.Lang, pathname string, fullPath string, showTrail bool, ogImage string, ogImageWidth string, ogImageHeight string) {
 	<!DOCTYPE html>
 	<html lang={ i18n.HTMLLang(lang) }>
 		<head>
@@ -21,14 +21,14 @@ templ Layout(title string, description string, ogType string, lang i18n.Lang, pa
 			<meta property="og:title" content={ title }/>
 			<meta property="og:description" content={ description }/>
 			<meta property="og:url" content={ config.BaseURL() + fullPath }/>
-			<meta property="og:image" content={ config.BaseURL() + "/static/images/og.png" }/>
-			<meta property="og:image:width" content="1729"/>
-			<meta property="og:image:height" content="910"/>
+			<meta property="og:image" content={ config.BaseURL() + ogImageOrDefault(ogImage) }/>
+			<meta property="og:image:width" content={ firstNonEmpty(ogImageWidth, "1729") }/>
+			<meta property="og:image:height" content={ firstNonEmpty(ogImageHeight, "910") }/>
 			<meta property="og:locale" content={ i18n.OGLocale(lang) }/>
 			<meta name="twitter:card" content="summary_large_image"/>
 			<meta name="twitter:title" content={ title }/>
 			<meta name="twitter:description" content={ description }/>
-			<meta name="twitter:image" content={ config.BaseURL() + "/static/images/og.png" }/>
+			<meta name="twitter:image" content={ config.BaseURL() + ogImageOrDefault(ogImage) }/>
 			<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 			<script>
@@ -63,7 +63,7 @@ templ Layout(title string, description string, ogType string, lang i18n.Lang, pa
 				applyThemeIcons(next);
 			}
 		</script>
-		<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
 			<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 			<link rel="icon" href="/static/images/favicon.ico" type="image/x-icon"/>
@@ -103,4 +103,18 @@ templ Layout(title string, description string, ogType string, lang i18n.Lang, pa
 			</div>
 		</body>
 	</html>
+}
+
+func ogImageOrDefault(ogImage string) string {
+	if ogImage == "" {
+		return "/static/images/og.png"
+	}
+	return ogImage
+}
+
+func firstNonEmpty(value string, fallback string) string {
+	if value == "" {
+		return fallback
+	}
+	return value
 }
