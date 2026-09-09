@@ -1611,6 +1611,28 @@ svg.trail path {
   line-height: 1.7;
 }
 
+/* ---------- PROSE MEDIA (img / gif / video) ---------- */
+.prose img,
+.prose video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--border);
+  margin: 0 0 24px;
+}
+.prose figure {
+  margin: 0 0 24px;
+}
+.prose figure img,
+.prose figure video {
+  margin: 0 0 8px;
+}
+.prose figcaption {
+  font-size: 13px;
+  color: var(--text-2);
+  text-align: center;
+}
+
 /* ---------- CHROMA COLOR TOKENS (Night Owl) ---------- */
 :root,
 [data-theme="dark"] {
